@@ -2,24 +2,86 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from '../admin.module.css';
-import {
-  MOCK_ARTICLES,
-  MOCK_AUTHORS,
-  MOCK_ISSUES,
-  MOCK_TOPICS,
-  Article,
-  ArticleStatus
-} from '@/lib/mockDb';
+import { supabase } from '@/lib/supabaseClient';
+import { Article, ArticleStatus } from '@/lib/mockDb';
 
 export default function AdminArticles() {
   const [articles, setArticles] = useState<Article[]>([]);
+  const [authors, setAuthors] = useState<any[]>([]);
+  const [topics, setTopics] = useState<any[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editingArticle, setEditingArticle] = useState<Partial<Article> | null>(null);
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  // Helper mapping functions
+  const mapToLocalArticle = (dbArticle: any): Article => ({
+    id: dbArticle.id,
+    slug: dbArticle.slug,
+    title: dbArticle.title,
+    subtitle: dbArticle.subtitle,
+    excerpt: dbArticle.excerpt,
+    content: dbArticle.content,
+    coverUrl: dbArticle.cover_url,
+    authorId: dbArticle.author_id,
+    issueId: dbArticle.issue_id,
+    topicId: dbArticle.topic_id,
+    status: dbArticle.status,
+    featured: dbArticle.featured,
+    homepagePriority: dbArticle.homepage_priority,
+    readingTime: dbArticle.reading_time,
+    publishedAt: dbArticle.published_at,
+    isPerspective: dbArticle.is_perspective
+  });
+
+  const mapToDbArticle = (localArticle: Partial<Article>) => ({
+    slug: localArticle.slug,
+    title: localArticle.title,
+    subtitle: localArticle.subtitle,
+    excerpt: localArticle.excerpt,
+    content: localArticle.content,
+    cover_url: localArticle.coverUrl || '/images/articles/convenience.jpg',
+    author_id: localArticle.authorId,
+    topic_id: localArticle.topicId || null,
+    issue_id: localArticle.issueId || null,
+    status: localArticle.status || 'draft',
+    featured: localArticle.featured || false,
+    homepage_priority: localArticle.homepagePriority ?? 0,
+    reading_time: localArticle.readingTime ?? 5,
+    published_at: localArticle.publishedAt,
+    is_perspective: localArticle.isPerspective || false
+  });
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const { data: artData } = await supabase
+        .from('articles')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      const { data: authData } = await supabase
+        .from('authors')
+        .select('*')
+        .order('name');
+
+      const { data: topData } = await supabase
+        .from('topics')
+        .select('*')
+        .order('name');
+
+      if (artData) setArticles(artData.map(mapToLocalArticle));
+      if (authData) setAuthors(authData);
+      if (topData) setTopics(topData);
+    } catch (err) {
+      console.error('Error fetching admin article data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    // Read initial static data
-    setArticles(MOCK_ARTICLES);
+    fetchData();
   }, []);
 
   const handleEdit = (article: Article) => {
@@ -36,51 +98,64 @@ export default function AdminArticles() {
       excerpt: '',
       content: '',
       slug: '',
-      authorId: MOCK_AUTHORS[0]?.id || '',
-      topicId: MOCK_TOPICS[0]?.id || '',
+      authorId: authors[0]?.id || '',
+      topicId: topics[0]?.id || '',
       status: 'draft',
       featured: false,
       homepagePriority: 0,
       readingTime: 10,
       coverUrl: '/images/articles/convenience.jpg',
-      publishedAt: new Date().toISOString()
+      publishedAt: new Date().toISOString(),
+      isPerspective: false
     });
     setIsEditing(true);
     setMessage('');
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingArticle) return;
 
-    // Simulate saving
-    const articleIndex = articles.findIndex(a => a.id === editingArticle.id);
-    let updatedList = [...articles];
+    try {
+      const isNew = editingArticle.id?.startsWith('art-new-');
+      const dbPayload = mapToDbArticle(editingArticle);
 
-    if (articleIndex > -1) {
-      // Edit existing
-      updatedList[articleIndex] = editingArticle as Article;
-      setMessage('Article updated successfully (simulated).');
-    } else {
-      // Add new
-      updatedList.unshift(editingArticle as Article);
-      setMessage('New article created successfully (simulated).');
+      if (isNew) {
+        const { error } = await supabase
+          .from('articles')
+          .insert([dbPayload]);
+
+        if (error) throw error;
+        setMessage('Article created successfully in database.');
+      } else {
+        const { error } = await supabase
+          .from('articles')
+          .update(dbPayload)
+          .eq('id', editingArticle.id);
+
+        if (error) throw error;
+        setMessage('Article updated successfully in database.');
+      }
+
+      await fetchData();
+
+      setTimeout(() => {
+        setIsEditing(false);
+        setEditingArticle(null);
+        setMessage('');
+      }, 1500);
+    } catch (err: any) {
+      console.error('Error saving article:', err);
+      setMessage(`Error saving: ${err.message || err}`);
     }
-
-    setArticles(updatedList);
-    setTimeout(() => {
-      setIsEditing(false);
-      setEditingArticle(null);
-      setMessage('');
-    }, 1500);
   };
 
   const getAuthorName = (id: string) => {
-    return MOCK_AUTHORS.find(a => a.id === id)?.name || 'Unknown';
+    return authors.find(a => a.id === id)?.name || 'Unknown';
   };
 
   const getTopicName = (id?: string) => {
-    return MOCK_TOPICS.find(t => t.id === id)?.name || 'None';
+    return topics.find(t => t.id === id)?.name || 'None';
   };
 
   return (
@@ -93,7 +168,7 @@ export default function AdminArticles() {
           </p>
         </div>
         {!isEditing && (
-          <button onClick={handleCreate} className={styles.btnPrimary}>
+          <button onClick={handleCreate} className={styles.btnPrimary} disabled={loading}>
             Create Article
           </button>
         )}
@@ -113,7 +188,11 @@ export default function AdminArticles() {
         </div>
       )}
 
-      {isEditing && editingArticle ? (
+      {loading && !isEditing ? (
+        <div style={{ fontFamily: 'var(--font-sans)', color: 'var(--text-secondary)', padding: '40px 0' }}>
+          Loading articles from database...
+        </div>
+      ) : isEditing && editingArticle ? (
         /* Form view */
         <form onSubmit={handleSave} className={styles.formCard}>
           <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.75rem', marginBottom: '24px' }}>
@@ -183,7 +262,7 @@ export default function AdminArticles() {
                 value={editingArticle.authorId || ''}
                 onChange={e => setEditingArticle({ ...editingArticle, authorId: e.target.value })}
               >
-                {MOCK_AUTHORS.map(author => (
+                {authors.map(author => (
                   <option key={author.id} value={author.id}>
                     {author.name}
                   </option>
@@ -198,7 +277,8 @@ export default function AdminArticles() {
                 value={editingArticle.topicId || ''}
                 onChange={e => setEditingArticle({ ...editingArticle, topicId: e.target.value })}
               >
-                {MOCK_TOPICS.map(topic => (
+                <option value="">None</option>
+                {topics.map(topic => (
                   <option key={topic.id} value={topic.id}>
                     {topic.name}
                   </option>
@@ -229,6 +309,27 @@ export default function AdminArticles() {
                 value={editingArticle.homepagePriority || 0}
                 onChange={e => setEditingArticle({ ...editingArticle, homepagePriority: parseInt(e.target.value) || 0 })}
               />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Reading time (minutes)</label>
+              <input
+                type="number"
+                className={styles.input}
+                value={editingArticle.readingTime || 5}
+                onChange={e => setEditingArticle({ ...editingArticle, readingTime: parseInt(e.target.value) || 5 })}
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.label} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <input
+                  type="checkbox"
+                  checked={editingArticle.isPerspective || false}
+                  onChange={e => setEditingArticle({ ...editingArticle, isPerspective: e.target.checked })}
+                />
+                Is Perspective (Opinion/Viewpoint)
+              </label>
             </div>
           </div>
 

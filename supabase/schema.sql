@@ -56,6 +56,7 @@ CREATE TABLE articles (
     homepage_priority INTEGER DEFAULT 0 NOT NULL,
     reading_time INTEGER NOT NULL DEFAULT 5, -- in minutes
     published_at TIMESTAMP WITH TIME ZONE,
+    is_perspective BOOLEAN DEFAULT false NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW()) NOT NULL
 );
 

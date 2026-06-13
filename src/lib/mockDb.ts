@@ -402,7 +402,7 @@ We must demand a public media that is funded not by clicks, but by subscription,
     coverUrl: '/images/articles/subtraction.jpg',
     authorId: 'author-4', // Marc Dubois
     issueId: 'issue-12',
-    topicId: 'topic-culture',
+    topicId: 'topic-tech',
     status: 'published',
     featured: false,
     homepagePriority: 4,

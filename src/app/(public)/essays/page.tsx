@@ -15,52 +15,106 @@ export default async function EssaysPage() {
 
   const getAuthor = (id: string) => authors.find(a => a.id === id);
 
-  return (
-    <div className={styles.river}>
-      <h1 className={styles.riverTitle}>Essays</h1>
+  const featuredEssay = essays[0];
+  const gridEssays = essays.slice(1);
 
-      {essays.map(essay => {
-        const author = getAuthor(essay.authorId);
-        return (
-          <div key={essay.id} className={styles.riverItem}>
-            <div className={styles.riverItemContent}>
-              <span className={styles.riverItemTag}>Essay</span>
-              <h2 className={styles.riverItemTitle}>
-                <Link href={`/article/${essay.slug}`}>{essay.title}</Link>
+  return (
+    <div className={styles.container}>
+      <h1 className={styles.pageTitle}>Essays</h1>
+
+      {/* Featured Essay */}
+      {featuredEssay && (
+        <div className={styles.featuredSection}>
+          <div className={styles.featuredCard}>
+            <Link href={`/article/${featuredEssay.slug}`} className={styles.featuredImageLink}>
+              <div className={styles.featuredImageContainer}>
+                <Image
+                  src={featuredEssay.coverUrl}
+                  alt={featuredEssay.title}
+                  fill
+                  priority
+                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 900px) 100vw, 600px"
+                />
+              </div>
+            </Link>
+            <div className={styles.featuredContent}>
+              <span className={styles.tag}>Featured Essay</span>
+              <h2 className={styles.featuredTitle}>
+                <Link href={`/article/${featuredEssay.slug}`}>{featuredEssay.title}</Link>
               </h2>
-              <p className={styles.riverItemExcerpt}>{essay.excerpt}</p>
+              <p className={styles.featuredExcerpt}>{featuredEssay.excerpt}</p>
               
-              <div className={styles.riverItemMeta}>
+              <div className={styles.meta}>
                 <span>
                   By{' '}
-                  <Link href={`/author/${author?.slug}`} style={{ color: 'var(--text-primary)', fontWeight: '500' }}>
-                    {author?.name}
+                  <Link href={`/author/${getAuthor(featuredEssay.authorId)?.slug}`} className={styles.authorLink}>
+                    {getAuthor(featuredEssay.authorId)?.name}
                   </Link>
                 </span>
                 <span>•</span>
                 <span>
-                  {new Date(essay.publishedAt).toLocaleDateString('en-US', {
+                  {new Date(featuredEssay.publishedAt).toLocaleDateString('en-US', {
                     month: 'long',
                     year: 'numeric',
                   })}
                 </span>
                 <span>•</span>
-                <span>{essay.readingTime} min read</span>
+                <span>{featuredEssay.readingTime} min read</span>
               </div>
-            </div>
-
-            <div className={styles.riverItemImage}>
-              <Image
-                src={essay.coverUrl}
-                alt={essay.title}
-                fill
-                style={{ objectFit: 'cover' }}
-                sizes="(max-width: 768px) 100vw, 320px"
-              />
+              <Link href={`/article/${featuredEssay.slug}`} className={styles.readBtn}>
+                Read Essay
+              </Link>
             </div>
           </div>
-        );
-      })}
+        </div>
+      )}
+
+      {/* Grid Essays */}
+      {gridEssays.length > 0 && (
+        <div className={styles.gridSection}>
+          <h2 className={styles.gridSectionTitle}>More Essays</h2>
+          <div className={styles.essaysGrid}>
+            {gridEssays.map(essay => {
+              const author = getAuthor(essay.authorId);
+              return (
+                <article key={essay.id} className={styles.essayCard}>
+                  <Link href={`/article/${essay.slug}`} className={styles.cardImageLink}>
+                    <div className={styles.cardImageContainer}>
+                      <Image
+                        src={essay.coverUrl}
+                        alt={essay.title}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        sizes="(max-width: 768px) 100vw, 360px"
+                      />
+                    </div>
+                  </Link>
+                  <div className={styles.cardContent}>
+                    <span className={styles.cardTag}>Essay</span>
+                    <h3 className={styles.cardTitle}>
+                      <Link href={`/article/${essay.slug}`}>{essay.title}</Link>
+                    </h3>
+                    <p className={styles.cardExcerpt}>{essay.excerpt}</p>
+                    
+                    <div className={styles.cardMeta}>
+                      <span>
+                        By{' '}
+                        <Link href={`/author/${author?.slug}`} className={styles.authorLink}>
+                          {author?.name}
+                        </Link>
+                      </span>
+                      <span>•</span>
+                      <span>{essay.readingTime} min read</span>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+

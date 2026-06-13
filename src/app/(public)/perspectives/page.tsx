@@ -53,10 +53,10 @@ export default async function PerspectivesPage() {
                 </div>
               </div>
 
-              <div className={styles.quoteBlock}>
+              <Link href={`/article/${p.slug}`} className={styles.quoteBlock}>
                 <p className={styles.quoteText}>&ldquo;{pullquote.substring(0, 100)}...&rdquo;</p>
                 <span className={styles.quoteAuthor}>— {author?.name}</span>
-              </div>
+              </Link>
             </div>
           );
         })}

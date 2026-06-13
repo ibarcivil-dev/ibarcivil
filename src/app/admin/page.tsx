@@ -2,36 +2,52 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from './admin.module.css';
-import {
-  getArticles,
-  getAuthors,
-  getIssues,
-} from '@/lib/mockDb';
+import { supabase } from '@/lib/supabaseClient';
 import { ShieldCheck, Info, FileEdit, Users, Compass, Mail } from 'lucide-react';
 
 export default function AdminDashboard() {
-  const [articles, setArticles] = useState<any[]>([]);
-  const [authors, setAuthors] = useState<any[]>([]);
-  const [issues, setIssues] = useState<any[]>([]);
-  
-  // Simulated Subscribers state
-  const [subscribers, setSubscribers] = useState<string[]>([
-    'reader.one@philosophy.edu',
-    'curious.mind@deepthinking.org',
-    'longform.lover@culturefeed.com',
-    'editor@modernsociety.com'
-  ]);
+  const [articlesCount, setArticlesCount] = useState(0);
+  const [authorsCount, setAuthorsCount] = useState(0);
+  const [issuesCount, setIssuesCount] = useState(0);
+  const [subscribers, setSubscribers] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Populate data
-    setArticles(getArticles());
-    setAuthors(getAuthors());
-    setIssues(getIssues());
-  }, []);
+    async function fetchStats() {
+      try {
+        // Fetch article count
+        const { count: artCount, error: artErr } = await supabase
+          .from('articles')
+          .select('*', { count: 'exact', head: true });
 
-  const totalPublished = articles.length;
-  const totalAuthors = authors.length;
-  const totalIssues = issues.length;
+        // Fetch authors count
+        const { count: authCount, error: authErr } = await supabase
+          .from('authors')
+          .select('*', { count: 'exact', head: true });
+
+        // Fetch issues count
+        const { count: issCount, error: issErr } = await supabase
+          .from('issues')
+          .select('*', { count: 'exact', head: true });
+
+        // Fetch subscribers
+        const { data: subsData, error: subsErr } = await supabase
+          .from('newsletter_subscribers')
+          .select('email')
+          .order('created_at', { ascending: false });
+
+        if (artCount !== null) setArticlesCount(artCount);
+        if (authCount !== null) setAuthorsCount(authCount);
+        if (issCount !== null) setIssuesCount(issCount);
+        if (subsData) setSubscribers(subsData.map(s => s.email));
+      } catch (err) {
+        console.error('Error fetching dashboard stats:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchStats();
+  }, []);
 
   return (
     <div>
@@ -44,7 +60,7 @@ export default function AdminDashboard() {
           </p>
         </div>
         
-        {/* Mock Mode indicator */}
+        {/* Connection indicator */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -56,7 +72,7 @@ export default function AdminDashboard() {
           fontSize: '0.85rem'
         }}>
           <ShieldCheck size={16} style={{ color: 'var(--accent)' }} />
-          <span>Local Mock Sandbox</span>
+          <span>Supabase Connected</span>
         </div>
       </div>
 
@@ -67,7 +83,7 @@ export default function AdminDashboard() {
             <span className={styles.statLabel}>Published Essays</span>
             <FileEdit size={16} style={{ color: 'var(--accent)' }} />
           </div>
-          <span className={styles.statValue}>{totalPublished}</span>
+          <span className={styles.statValue}>{loading ? '...' : articlesCount}</span>
         </div>
 
         <div className={styles.statCard}>
@@ -75,7 +91,7 @@ export default function AdminDashboard() {
             <span className={styles.statLabel}>Contributors</span>
             <Users size={16} style={{ color: 'var(--accent)' }} />
           </div>
-          <span className={styles.statValue}>{totalAuthors}</span>
+          <span className={styles.statValue}>{loading ? '...' : authorsCount}</span>
         </div>
 
         <div className={styles.statCard}>
@@ -83,7 +99,7 @@ export default function AdminDashboard() {
             <span className={styles.statLabel}>Issues Curation</span>
             <Compass size={16} style={{ color: 'var(--accent)' }} />
           </div>
-          <span className={styles.statValue}>{totalIssues}</span>
+          <span className={styles.statValue}>{loading ? '...' : issuesCount}</span>
         </div>
 
         <div className={styles.statCard}>
@@ -91,7 +107,7 @@ export default function AdminDashboard() {
             <span className={styles.statLabel}>Subscribers</span>
             <Mail size={16} style={{ color: 'var(--accent)' }} />
           </div>
-          <span className={styles.statValue}>{subscribers.length}</span>
+          <span className={styles.statValue}>{loading ? '...' : subscribers.length}</span>
         </div>
       </div>
 
@@ -123,7 +139,7 @@ export default function AdminDashboard() {
             }}>
               <Info size={24} style={{ flexShrink: 0, color: 'var(--accent)' }} />
               <span>
-                <strong>Note:</strong> The database is currently in mock developer-testing mode. Modifications are simulated locally on this client interface.
+                <strong>Note:</strong> The database is currently in active developer-testing mode. Modifications are applied directly in your Supabase project.
               </span>
             </div>
           </div>
@@ -141,21 +157,27 @@ export default function AdminDashboard() {
           <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
             Recent Subscribers
           </h3>
-          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {subscribers.map((sub, i) => (
-              <li key={i} style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.9rem',
-                color: 'var(--text-secondary)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}>
-                <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--accent)' }} />
-                <span>{sub}</span>
-              </li>
-            ))}
-          </ul>
+          {subscribers.length === 0 ? (
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', fontFamily: 'var(--font-sans)' }}>
+              No subscribers yet.
+            </p>
+          ) : (
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {subscribers.map((sub, i) => (
+                <li key={i} style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '0.9rem',
+                  color: 'var(--text-secondary)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
+                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--accent)' }} />
+                  <span>{sub}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </div>

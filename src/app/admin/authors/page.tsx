@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from '../admin.module.css';
-import { MOCK_AUTHORS, Author } from '@/lib/mockDb';
+import { supabase } from '@/lib/supabaseClient';
+import { Author } from '@/lib/mockDb';
 
 export default function AdminAuthors() {
   const [authors, setAuthors] = useState<Author[]>([]);
@@ -10,9 +11,48 @@ export default function AdminAuthors() {
   const [editingAuthor, setEditingAuthor] = useState<Partial<Author> | null>(null);
   const [message, setMessage] = useState('');
   const [interestsText, setInterestsText] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  // Mapping Helpers
+  const mapToLocalAuthor = (dbAuthor: any): Author => ({
+    id: dbAuthor.id,
+    name: dbAuthor.name,
+    slug: dbAuthor.slug,
+    avatarUrl: dbAuthor.avatar_url,
+    bio: dbAuthor.bio,
+    specialization: dbAuthor.specialization,
+    currentInterests: dbAuthor.current_interests || [],
+    recommendedReading: dbAuthor.recommended_reading || []
+  });
+
+  const mapToDbAuthor = (localAuthor: Partial<Author>) => ({
+    name: localAuthor.name,
+    slug: localAuthor.slug || localAuthor.name?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+    avatar_url: localAuthor.avatarUrl || '/images/authors/elena.jpg',
+    bio: localAuthor.bio,
+    specialization: localAuthor.specialization,
+    current_interests: localAuthor.currentInterests || [],
+    recommended_reading: localAuthor.recommendedReading || []
+  });
+
+  const fetchAuthors = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('authors')
+        .select('*')
+        .order('name');
+      if (error) throw error;
+      if (data) setAuthors(data.map(mapToLocalAuthor));
+    } catch (err) {
+      console.error('Error fetching authors:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    setAuthors(MOCK_AUTHORS);
+    fetchAuthors();
   }, []);
 
   const handleEdit = (author: Author) => {
@@ -22,7 +62,7 @@ export default function AdminAuthors() {
     setMessage('');
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingAuthor) return;
 
@@ -32,25 +72,31 @@ export default function AdminAuthors() {
       .map(i => i.trim())
       .filter(i => i !== '');
 
-    const updatedAuthor = {
+    const updatedLocal = {
       ...editingAuthor,
       currentInterests: parsedInterests
-    } as Author;
+    };
 
-    const idx = authors.findIndex(a => a.id === updatedAuthor.id);
-    let updated = [...authors];
+    try {
+      const dbPayload = mapToDbAuthor(updatedLocal);
+      const { error } = await supabase
+        .from('authors')
+        .update(dbPayload)
+        .eq('id', editingAuthor.id);
 
-    if (idx > -1) {
-      updated[idx] = updatedAuthor;
-      setMessage('Contributor details updated successfully (simulated).');
+      if (error) throw error;
+      setMessage('Contributor details updated successfully in database.');
+      await fetchAuthors();
+
+      setTimeout(() => {
+        setIsEditing(false);
+        setEditingAuthor(null);
+        setMessage('');
+      }, 1200);
+    } catch (err: any) {
+      console.error('Error saving author:', err);
+      setMessage(`Error saving: ${err.message || err}`);
     }
-
-    setAuthors(updated);
-    setTimeout(() => {
-      setIsEditing(false);
-      setEditingAuthor(null);
-      setMessage('');
-    }, 1200);
   };
 
   return (
@@ -78,7 +124,11 @@ export default function AdminAuthors() {
         </div>
       )}
 
-      {isEditing && editingAuthor ? (
+      {loading ? (
+        <div style={{ fontFamily: 'var(--font-sans)', color: 'var(--text-secondary)', padding: '40px 0' }}>
+          Loading contributors from database...
+        </div>
+      ) : isEditing && editingAuthor ? (
         <form onSubmit={handleSave} className={styles.formCard}>
           <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.75rem', marginBottom: '24px' }}>
             Edit Contributor: {editingAuthor.name}

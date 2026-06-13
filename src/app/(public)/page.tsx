@@ -60,16 +60,18 @@ export default async function Homepage() {
                 Read Article
               </Link>
             </div>
-            <div className={styles.heroImageContainer}>
-              <Image
-                src={activeHero.coverUrl}
-                alt={activeHero.title}
-                fill
-                priority={true}
-                style={{ objectFit: 'cover' }}
-                sizes="(max-width: 900px) 100vw, 600px"
-              />
-            </div>
+            <Link href={`/article/${activeHero.slug}`} className={styles.heroImageLink}>
+              <div className={styles.heroImageContainer}>
+                <Image
+                  src={activeHero.coverUrl}
+                  alt={activeHero.title}
+                  fill
+                  priority={true}
+                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 900px) 100vw, 600px"
+                />
+              </div>
+            </Link>
           </div>
         </section>
       )}
@@ -86,15 +88,17 @@ export default async function Homepage() {
             {/* First Featured Essay - Large format */}
             {featuredEssays[0] && (
               <div className={styles.essayLarge}>
-                <div className={styles.essayImage}>
-                  <Image
-                    src={featuredEssays[0].coverUrl}
-                    alt={featuredEssays[0].title}
-                    fill
-                    style={{ objectFit: 'cover' }}
-                    sizes="(max-width: 768px) 100vw, 550px"
-                  />
-                </div>
+                <Link href={`/article/${featuredEssays[0].slug}`} className={styles.essayImageLink}>
+                  <div className={styles.essayImage}>
+                    <Image
+                      src={featuredEssays[0].coverUrl}
+                      alt={featuredEssays[0].title}
+                      fill
+                      style={{ objectFit: 'cover' }}
+                      sizes="(max-width: 768px) 100vw, 550px"
+                    />
+                  </div>
+                </Link>
                 <div className={styles.essayContent}>
                   <span className={styles.tag}>Essay</span>
                   <h3 className={styles.essayTitle}>
@@ -142,15 +146,17 @@ export default async function Homepage() {
           </div>
 
           <div className={styles.issueGrid}>
-            <div className={styles.issueCover}>
-              <Image
-                src={spotlightIssue.coverUrl}
-                alt={spotlightIssue.title}
-                fill
-                style={{ objectFit: 'cover' }}
-                sizes="(max-width: 900px) 100vw, 380px"
-              />
-            </div>
+            <Link href={`/issue/${spotlightIssue.id}`} className={styles.issueCoverLink}>
+              <div className={styles.issueCover}>
+                <Image
+                  src={spotlightIssue.coverUrl}
+                  alt={spotlightIssue.title}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 900px) 100vw, 380px"
+                />
+              </div>
+            </Link>
             <div className={styles.issueDetails}>
               <div>
                 <span className={styles.issueNum}>Issue No. {spotlightIssue.number}</span>
@@ -315,23 +321,25 @@ export default async function Homepage() {
         <div className={styles.contributorsGrid}>
           {authors.map(author => (
             <div key={author.id} className={styles.contributorCard}>
-              <div className={styles.avatarContainer}>
-                {/* Simulated Avatars using placeholder styling as image generator runs later */}
-                <div style={{
-                  width: '100%',
-                  height: '100%',
-                  backgroundColor: 'var(--accent)',
-                  opacity: 0.15,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  fontFamily: 'var(--font-serif)',
-                  fontSize: '2rem',
-                  color: 'var(--text-primary)'
-                }}>
-                  {author.name.charAt(0)}
+              <Link href={`/author/${author.slug}`} className={styles.avatarLink}>
+                <div className={styles.avatarContainer}>
+                  {/* Simulated Avatars using placeholder styling as image generator runs later */}
+                  <div style={{
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'var(--accent)',
+                    opacity: 0.15,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    fontFamily: 'var(--font-serif)',
+                    fontSize: '2rem',
+                    color: 'var(--text-primary)'
+                  }}>
+                    {author.name.charAt(0)}
+                  </div>
                 </div>
-              </div>
+              </Link>
               <div>
                 <h3 className={styles.contributorName}>
                   <Link href={`/author/${author.slug}`}>{author.name}</Link>

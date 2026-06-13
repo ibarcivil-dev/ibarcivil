@@ -94,12 +94,22 @@
   gap: 16px;
 }
 
+.heroImageLink {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+}
+
 .heroImageContainer {
   position: relative;
   width: 100%;
   height: 540px;
   background-color: var(--muted);
-  overflow: hidden;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.heroImageLink:hover .heroImageContainer {
+  transform: scale(1.02);
 }
 
 @media (max-width: 900px) {
@@ -152,12 +162,26 @@
   }
 }
 
+.essayImageLink {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+}
+
 .essayImage {
   position: relative;
   width: 100%;
   height: 320px;
   background-color: var(--muted);
-  overflow: hidden;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.essayImageLink:hover .essayImage {
+  transform: scale(1.03);
+}
+
+.essayLarge:hover .essayTitle a {
+  color: var(--accent);
 }
 
 .essayContent {
@@ -194,14 +218,30 @@
   }
 }
 
+.issueCoverLink {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.issueCoverLink:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
 .issueCover {
   position: relative;
   width: 100%;
   height: 480px;
   border: 1px solid var(--border);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
   background-color: var(--muted);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.issueCoverLink:hover .issueCover {
+  transform: scale(1.02);
 }
 
 .issueDetails {
@@ -329,8 +369,22 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  border-left: 3px solid var(--text-primary);
+  border-left: 3px solid var(--accent);
   padding-left: 24px;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.perspectiveItem:hover {
+  border-left-color: var(--text-primary);
+  transform: translateX(4px);
+}
+
+.perspectiveTitle a {
+  transition: color 0.3s ease;
+}
+
+.perspectiveItem:hover .perspectiveTitle a {
+  color: var(--accent);
 }
 
 .perspectiveTitle {
@@ -438,6 +492,17 @@
   flex-direction: column;
   gap: 16px;
   align-items: flex-start;
+}
+
+.avatarLink {
+  display: block;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.avatarLink:hover {
+  transform: scale(1.06);
 }
 
 .avatarContainer {

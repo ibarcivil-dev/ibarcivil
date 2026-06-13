@@ -2,40 +2,106 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from '../admin.module.css';
-import {
-  MOCK_ARTICLES,
-  MOCK_ISSUES,
-  MOCK_EDITOR_NOTES,
-  MOCK_HOMEPAGE_CONFIG,
-  HomepageConfig
-} from '@/lib/mockDb';
+import { supabase } from '@/lib/supabaseClient';
+import { HomepageConfig } from '@/lib/mockDb';
 
 export default function AdminHomepageCuration() {
   const [config, setConfig] = useState<HomepageConfig | null>(null);
+  const [configId, setConfigId] = useState<string | null>(null);
   const [articles, setArticles] = useState<any[]>([]);
   const [issues, setIssues] = useState<any[]>([]);
   const [editorNotes, setEditorNotes] = useState<any[]>([]);
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    setConfig(MOCK_HOMEPAGE_CONFIG);
-    setArticles(MOCK_ARTICLES);
-    setIssues(MOCK_ISSUES);
-    setEditorNotes(MOCK_EDITOR_NOTES);
-  }, []);
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      // 1. Fetch auxiliary lists
+      const { data: artData } = await supabase.from('articles').select('*');
+      const { data: issData } = await supabase.from('issues').select('*');
+      const { data: noteData } = await supabase.from('editor_notes').select('*');
 
-  const handleSave = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!config) return;
+      if (artData) setArticles(artData);
+      if (issData) setIssues(issData);
+      if (noteData) setEditorNotes(noteData);
 
-    // Simulate saving the config
-    setMessage('Homepage curation configuration updated successfully (simulated).');
-    setTimeout(() => {
-      setMessage('');
-    }, 2500);
+      // 2. Fetch homepage config
+      const { data: configs } = await supabase.from('homepage_configs').select('*');
+      let activeConfig = configs?.[0];
+
+      if (!activeConfig && artData && artData.length > 0) {
+        // Insert a default configuration if none exists
+        const placeholder = {
+          hero_article_id: artData[0]?.id || null,
+          featured_essay_ids: artData.slice(1, 3).map(a => a.id) || [],
+          issue_spotlight_id: issData?.[0]?.id || null,
+          archive_highlight_id: artData[2]?.id || null,
+          editors_note_id: noteData?.[0]?.id || null
+        };
+
+        const { data: inserted } = await supabase
+          .from('homepage_configs')
+          .insert([placeholder])
+          .select();
+
+        activeConfig = inserted?.[0];
+      }
+
+      if (activeConfig) {
+        setConfig({
+          heroArticleId: activeConfig.hero_article_id || '',
+          featuredEssayIds: activeConfig.featured_essay_ids || [],
+          issueSpotlightId: activeConfig.issue_spotlight_id || '',
+          archiveHighlightId: activeConfig.archive_highlight_id || '',
+          editorsNoteId: activeConfig.editors_note_id || ''
+        });
+        setConfigId(activeConfig.id);
+      }
+    } catch (err) {
+      console.error('Error loading homepage config:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  if (!config) return <div>Loading curation configuration...</div>;
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!config || !configId) return;
+
+    try {
+      const dbPayload = {
+        hero_article_id: config.heroArticleId || null,
+        featured_essay_ids: config.featuredEssayIds || [],
+        issue_spotlight_id: config.issueSpotlightId || null,
+        archive_highlight_id: config.archiveHighlightId || null,
+        editors_note_id: config.editorsNoteId || null,
+        updated_at: new Date().toISOString()
+      };
+
+      const { error } = await supabase
+        .from('homepage_configs')
+        .update(dbPayload)
+        .eq('id', configId);
+
+      if (error) throw error;
+
+      setMessage('Homepage curation configuration updated successfully in database.');
+      setTimeout(() => {
+        setMessage('');
+      }, 2500);
+    } catch (err: any) {
+      console.error('Error saving homepage config:', err);
+      setMessage(`Error saving configuration: ${err.message || err}`);
+    }
+  };
+
+  if (loading) return <div style={{ fontFamily: 'var(--font-sans)', color: 'var(--text-secondary)', padding: '40px' }}>Loading configuration from database...</div>;
+  if (!config) return <div style={{ fontFamily: 'var(--font-sans)', color: 'var(--text-secondary)', padding: '40px' }}>No articles or database rows found to configure the homepage.</div>;
 
   return (
     <div>
@@ -76,9 +142,10 @@ export default function AdminHomepageCuration() {
               value={config.heroArticleId}
               onChange={e => setConfig({ ...config, heroArticleId: e.target.value })}
             >
+              <option value="">None</option>
               {articles.map(art => (
                 <option key={art.id} value={art.id}>
-                  {art.title} ({getTopicName(art.topicId)})
+                  {art.title}
                 </option>
               ))}
             </select>
@@ -96,6 +163,7 @@ export default function AdminHomepageCuration() {
                 setConfig({ ...config, featuredEssayIds: updatedIds });
               }}
             >
+              <option value="">None</option>
               {articles.map(art => (
                 <option key={art.id} value={art.id}>
                   {art.title}
@@ -116,6 +184,7 @@ export default function AdminHomepageCuration() {
                 setConfig({ ...config, featuredEssayIds: updatedIds });
               }}
             >
+              <option value="">None</option>
               {articles.map(art => (
                 <option key={art.id} value={art.id}>
                   {art.title}
@@ -132,6 +201,7 @@ export default function AdminHomepageCuration() {
               value={config.issueSpotlightId}
               onChange={e => setConfig({ ...config, issueSpotlightId: e.target.value })}
             >
+              <option value="">None</option>
               {issues.map(iss => (
                 <option key={iss.id} value={iss.id}>
                   Issue No. {iss.number}: {iss.title}
@@ -148,6 +218,7 @@ export default function AdminHomepageCuration() {
               value={config.archiveHighlightId}
               onChange={e => setConfig({ ...config, archiveHighlightId: e.target.value })}
             >
+              <option value="">None</option>
               {articles.map(art => (
                 <option key={art.id} value={art.id}>
                   {art.title}
@@ -164,6 +235,7 @@ export default function AdminHomepageCuration() {
               value={config.editorsNoteId}
               onChange={e => setConfig({ ...config, editorsNoteId: e.target.value })}
             >
+              <option value="">None</option>
               {editorNotes.map(note => (
                 <option key={note.id} value={note.id}>
                   {note.title}
@@ -181,16 +253,4 @@ export default function AdminHomepageCuration() {
       </form>
     </div>
   );
-}
-
-function getTopicName(id?: string) {
-  switch (id) {
-    case 'topic-tech': return 'Technology';
-    case 'topic-society': return 'Society';
-    case 'topic-philosophy': return 'Philosophy';
-    case 'topic-science': return 'Science';
-    case 'topic-culture': return 'Culture';
-    case 'topic-politics': return 'Politics';
-    default: return 'General';
-  }
 }
