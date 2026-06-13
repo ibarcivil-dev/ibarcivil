@@ -1,0 +1,253 @@
+/* Article Immersive Reading Layout */
+
+.articleWrapper {
+  max-width: var(--article-width);
+  margin: 80px auto;
+  padding: 0 var(--spacing-small);
+}
+
+/* Progress Bar */
+.progressBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background-color: var(--accent);
+  z-index: 200;
+  transition: width 0.1s ease-out;
+}
+
+.header {
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.topic {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 3.5rem;
+  line-height: 1.1;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 2.5rem;
+  }
+}
+
+.subtitle {
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  font-weight: 300;
+  max-width: 60ch;
+  margin: 0 auto 32px;
+}
+
+.meta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+}
+
+.metaLink {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.metaLink:hover {
+  text-decoration: underline;
+}
+
+.coverContainer {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  height: 600px;
+  background-color: var(--muted);
+  margin-bottom: 64px;
+}
+
+@media (max-width: 900px) {
+  .coverContainer {
+    height: 400px;
+  }
+}
+
+/* Table of Contents */
+.tocContainer {
+  border: 1px solid var(--border);
+  padding: 24px 32px;
+  margin-bottom: 48px;
+  background-color: var(--muted);
+}
+
+.tocTitle {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+
+.tocList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tocLink {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.tocLink:hover {
+  color: var(--accent);
+}
+
+/* Sharing UI */
+.shareBar {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 64px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 0;
+}
+
+.shareBtn {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s ease;
+}
+
+.shareBtn:hover {
+  color: var(--accent);
+}
+
+/* Footnotes Section */
+.footnotes {
+  border-top: 1px solid var(--border);
+  margin-top: 80px;
+  padding-top: 40px;
+}
+
+.footnotesTitle {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+}
+
+.footnotesList {
+  padding-left: 20px;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Related Reading */
+.relatedSection {
+  border-top: 1px solid var(--border);
+  margin-top: 80px;
+  padding-top: 80px;
+}
+
+.relatedTitle {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+}
+
+@media (max-width: 768px) {
+  .relatedGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.relatedCard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.relatedCardTitle {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+}
+
+.relatedCardExcerpt {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* Inside-Article Newsletter */
+.inlineNewsletter {
+  background-color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 48px;
+  margin-top: 80px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.inlineNewsletterTitle {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+}
+
+.inlineNewsletterDesc {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  max-width: 45ch;
+  line-height: 1.5;
+}

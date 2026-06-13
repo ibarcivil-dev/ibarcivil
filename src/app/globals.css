@@ -1,0 +1,138 @@
+/* Design Tokens and Globals for IBAR Premium Webzine */
+
+:root {
+  /* Colors - Light Theme */
+  --background: #F6F2EA;
+  --surface: #FFFFFF;
+  --text-primary: #111111;
+  --text-secondary: #5C5C5C;
+  --accent: #7A3E2B;
+  --border: #E7DED0;
+  --muted: #F0E8DC;
+  --navbar-height: 100px;
+  --navbar-height-compressed: 70px;
+  
+  /* Font bindings mapped to next/font/google variables */
+  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  
+  /* Spacing System */
+  --spacing-large: 120px;
+  --spacing-medium: 64px;
+  --spacing-small: 24px;
+  --content-width: 1200px;
+  --article-width: 70ch;
+}
+
+/* Colors - Dark Theme (controlled by next-themes adding class="dark" to html) */
+html.dark {
+  --background: #111316;
+  --surface: #1B1F24;
+  --text-primary: #F3F1ED;
+  --text-secondary: #B5B1A9;
+  --accent: #C68E72;
+  --border: #2D3238;
+  --muted: #22262B;
+}
+
+/* Global Reset and Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: auto;
+  height: 100%;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  color: var(--text-primary);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+p {
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+button {
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+}
+
+input, textarea, select {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Layout helpers */
+.container {
+  width: 100%;
+  max-width: var(--content-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-small);
+  padding-right: var(--spacing-small);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

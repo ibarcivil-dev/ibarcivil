@@ -1,0 +1,138 @@
+.container {
+  max-width: var(--content-width);
+  margin: 64px auto;
+  padding: 0 var(--spacing-small);
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  border-bottom: 2px solid var(--text-primary);
+  padding-bottom: 24px;
+  margin-bottom: 48px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 3fr 9fr;
+  gap: 48px;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Filter styles */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filterTitle {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.filterList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filterItem {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.filterItem:hover, .filterItem.active {
+  color: var(--accent);
+}
+
+/* Timeline styles */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.yearSection {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.yearHeader {
+  font-family: var(--font-serif);
+  font-size: 2.25rem;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--text-primary);
+  padding-bottom: 8px;
+}
+
+.articleRow {
+  display: grid;
+  grid-template-columns: 2fr 7fr 3fr;
+  gap: 24px;
+  align-items: baseline;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+  transition: border-color 0.2s ease;
+}
+
+.articleRow:hover {
+  border-color: var(--text-primary);
+}
+
+@media (max-width: 600px) {
+  .articleRow {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+.date {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.artTitle {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+.meta {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+@media (max-width: 600px) {
+  .meta {
+    text-align: left;
+  }
+}

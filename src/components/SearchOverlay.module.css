@@ -1,0 +1,134 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(17, 19, 22, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 15vh;
+  z-index: 1000;
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  width: 100%;
+  max-width: 640px;
+  border-radius: 0;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-small);
+  border-bottom: 1px solid var(--border);
+}
+
+.searchIcon {
+  color: var(--text-secondary);
+  margin-right: 16px;
+}
+
+.input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--text-secondary);
+}
+
+.results {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: var(--spacing-small);
+}
+
+.sectionTitle {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  padding: 12px 12px 6px;
+  border-bottom: 1px solid var(--muted);
+  margin-bottom: 8px;
+}
+
+.resultItem {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 0;
+  transition: background-color 0.15s ease;
+}
+
+.resultItem:hover, .resultItem.active {
+  background-color: var(--muted);
+}
+
+.itemTitle {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.itemSubtitle {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.noResults {
+  padding: 32px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+}
+
+.footer {
+  padding: 12px 24px;
+  border-top: 1px solid var(--border);
+  background-color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.shortcuts {
+  display: flex;
+  gap: 12px;
+}
+
+.shortcut {
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  padding: 2px 6px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-10px); }
+  to { transform: translateY(0); }
+}

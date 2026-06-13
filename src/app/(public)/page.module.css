@@ -1,0 +1,537 @@
+/* Homepage Editorial Layout Styles */
+
+.section {
+  padding: var(--spacing-medium) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.sectionLarge {
+  padding: var(--spacing-large) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 48px;
+  border-bottom: 1px solid var(--text-primary);
+  padding-bottom: 12px;
+}
+
+.sectionTitle {
+  font-family: var(--font-serif);
+  font-size: 2.25rem;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.sectionSubtitle {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+/* 1. Hero Section */
+.heroGrid {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: 64px;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .heroGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.tag {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.heroTitle {
+  font-family: var(--font-serif);
+  font-size: 3.5rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+@media (max-width: 600px) {
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+}
+
+.heroExcerpt {
+  font-family: var(--font-sans);
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  font-weight: 300;
+}
+
+.heroMeta {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  display: flex;
+  gap: 16px;
+}
+
+.heroImageContainer {
+  position: relative;
+  width: 100%;
+  height: 540px;
+  background-color: var(--muted);
+  overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  .heroImageContainer {
+    height: 400px;
+  }
+}
+
+.readBtn {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 4px;
+  align-self: flex-start;
+  transition: color 0.2s ease;
+}
+
+.readBtn:hover {
+  color: var(--accent);
+}
+
+/* 2. Featured Essays - Editorial River (asymmetrical stack) */
+.essaysLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.essayLarge {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.essayMedium {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+}
+
+@media (max-width: 768px) {
+  .essayLarge, .essayMedium {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+.essayImage {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  background-color: var(--muted);
+  overflow: hidden;
+}
+
+.essayContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.essayTitle {
+  font-family: var(--font-serif);
+  font-size: 2.25rem;
+  line-height: 1.2;
+}
+
+.essayExcerpt {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* 3. Issue Spotlight */
+.issueGrid {
+  display: grid;
+  grid-template-columns: 4fr 8fr;
+  gap: 64px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .issueGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.issueCover {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  border: 1px solid var(--border);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background-color: var(--muted);
+}
+
+.issueDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.issueNum {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.issueTitle {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  line-height: 1.1;
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.issueDesc {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  border-left: 2px solid var(--border);
+  padding-left: 24px;
+  margin-bottom: 16px;
+}
+
+.issueArticlesList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.issueArticleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+  transition: border-color 0.2s ease;
+}
+
+.issueArticleRow:hover {
+  border-color: var(--text-primary);
+}
+
+.issueArticleTitle {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+/* 4. Editor's Notebook */
+.notebookBg {
+  background-color: var(--muted);
+  padding: 80px 0;
+}
+
+.notebookGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+}
+
+@media (max-width: 768px) {
+  .notebookGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.noteCard {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.noteMeta {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.noteTitle {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+}
+
+.noteText {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* 5. Perspectives Section (Opinion, sharper contrast) */
+.perspectivesGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+}
+
+@media (max-width: 768px) {
+  .perspectivesGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.perspectiveItem {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-left: 3px solid var(--text-primary);
+  padding-left: 24px;
+}
+
+.perspectiveTitle {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+
+.perspectiveExcerpt {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* 6. Archive Highlight */
+.archiveHighlight {
+  border: 1px solid var(--border);
+  padding: 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  background-color: var(--surface);
+}
+
+@media (max-width: 768px) {
+  .archiveHighlight {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: var(--spacing-small);
+  }
+}
+
+.archiveCommentary {
+  border-left: 2px solid var(--accent);
+  padding-left: 24px;
+}
+
+.archiveCommentaryTitle {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.archiveCommentaryText {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* 7. Reading List */
+.readingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 32px;
+}
+
+.readingItem {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.readingTitle {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  transition: color 0.2s ease;
+}
+
+.readingTitle:hover {
+  color: var(--accent);
+}
+
+.readingCurator {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.readingCommentary {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* 8. Contributors */
+.contributorsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 40px;
+}
+
+.contributorCard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.avatarContainer {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background-color: var(--muted);
+}
+
+.contributorName {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+}
+
+.contributorSpec {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+
+.contributorInterests {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* 9. Newsletter section */
+.newsletterSection {
+  background-color: var(--text-primary);
+  color: var(--background);
+  padding: 80px 0;
+  text-align: center;
+}
+
+.newsletterWrapper {
+  max-width: 580px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+}
+
+.newsletterTitle {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  color: var(--background);
+}
+
+.newsletterDesc {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--border);
+}
+
+.newsletterForm {
+  display: flex;
+  width: 100%;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.newsletterInput {
+  background: transparent;
+  border: none;
+  width: 100%;
+  color: var(--background);
+  font-size: 1rem;
+  outline: none;
+  font-family: var(--font-sans);
+}
+
+.newsletterInput::placeholder {
+  color: var(--border);
+  opacity: 0.6;
+}
+
+.newsletterSubmit {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--background);
+  white-space: nowrap;
+}
+
+.newsletterSubmit:hover {
+  color: var(--accent);
+}
