@@ -8,8 +8,14 @@ interface MarkdownProps {
 }
 
 export function Markdown({ content }: MarkdownProps) {
+  // Simple check for Arabic/Urdu character ranges
+  const isUrdu = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/.test(content);
+
   return (
-    <div className={styles.markdown}>
+    <div 
+      className={`${styles.markdown} ${isUrdu ? 'ur urdu' : ''}`}
+      lang={isUrdu ? 'ur' : 'en'}
+    >
       <ReactMarkdown
         components={{
           img: ({ src, alt, title }) => {

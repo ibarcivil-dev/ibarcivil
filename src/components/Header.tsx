@@ -125,12 +125,6 @@ export function Header() {
               <kbd className={styles.kbd}>/</kbd>
             </button>
 
-            {/* Admin Panel Link */}
-            <Link href="/admin" className={styles.actionBtn} title="Admin Dashboard">
-              <User size={18} />
-              <span className="sr-only">Admin Dashboard</span>
-            </Link>
-
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}

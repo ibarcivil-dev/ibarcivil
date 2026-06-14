@@ -80,10 +80,12 @@ export default async function ArticlePage({ params }: PageProps) {
         .slice(0, 2)
     : [];
 
+  const isTitleUrdu = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/.test(article.title + ' ' + article.subtitle);
+
   return (
     <article className={styles.articleWrapper}>
       {/* 1. ARTICLE TITLE & META [Immersion] */}
-      <div className={styles.header}>
+      <div className={`${styles.header} ${isTitleUrdu ? 'ur urdu' : ''}`} lang={isTitleUrdu ? 'ur' : 'en'}>
         {topic && (
           <Link href={`/topic/${topic.slug}`} className={styles.topic}>
             {topic.name}
@@ -92,7 +94,7 @@ export default async function ArticlePage({ params }: PageProps) {
         <h1 className={styles.title}>{article.title}</h1>
         <p className={styles.subtitle}>{article.subtitle}</p>
 
-        <div className={styles.meta}>
+        <div className={styles.meta} dir="ltr">
           <span>
             By{' '}
             <Link href={`/author/${author?.slug}`} className={styles.metaLink}>

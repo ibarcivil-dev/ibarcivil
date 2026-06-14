@@ -6,7 +6,7 @@ import styles from '../admin.module.css';
 import { supabase } from '@/lib/supabaseClient';
 import { Article } from '@/lib/mockDb';
 
-export default function AdminArticles() {
+export default function AdminPerspectives() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [authors, setAuthors] = useState<any[]>([]);
   const [topics, setTopics] = useState<any[]>([]);
@@ -38,7 +38,7 @@ export default function AdminArticles() {
       const { data: artData } = await supabase
         .from('articles')
         .select('*')
-        .eq('is_perspective', false)
+        .eq('is_perspective', true) // Only query perspectives
         .order('created_at', { ascending: false });
 
       const { data: authData } = await supabase
@@ -55,7 +55,7 @@ export default function AdminArticles() {
       if (authData) setAuthors(authData);
       if (topData) setTopics(topData);
     } catch (err) {
-      console.error('Error fetching admin article data:', err);
+      console.error('Error fetching admin perspectives data:', err);
     } finally {
       setLoading(false);
     }
@@ -77,19 +77,19 @@ export default function AdminArticles() {
     <div>
       <div className={styles.pageHeader}>
         <div>
-          <h1 className={styles.pageTitle}>Articles</h1>
+          <h1 className={styles.pageTitle}>Perspectives</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '4px' }}>
-            Manage publication flow, editor statuses, and priority flags.
+            Manage editorial columns, opinions, and viewpoint arguments.
           </p>
         </div>
-        <Link href="/admin/articles/create" className={styles.btnPrimary} style={{ textDecoration: 'none' }}>
-          Create Article
+        <Link href="/admin/perspectives/create" className={styles.btnPrimary} style={{ textDecoration: 'none' }}>
+          Create Perspective
         </Link>
       </div>
 
       {loading ? (
         <div style={{ fontFamily: 'var(--font-sans)', color: 'var(--text-secondary)', padding: '40px 0' }}>
-          Loading articles from database...
+          Loading perspectives from database...
         </div>
       ) : (
         <div className={styles.tableWrapper}>
@@ -119,7 +119,7 @@ export default function AdminArticles() {
                   </td>
                   <td className={styles.td}>{article.homepagePriority}</td>
                   <td className={styles.td}>
-                    <Link href={`/admin/articles/${article.id}`} className={styles.actionLink} style={{ textDecoration: 'none' }}>
+                    <Link href={`/admin/perspectives/${article.id}`} className={styles.actionLink} style={{ textDecoration: 'none' }}>
                       Edit
                     </Link>
                   </td>

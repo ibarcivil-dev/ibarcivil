@@ -34,7 +34,7 @@ export default function AdminHomepageCuration() {
         // Insert a default configuration if none exists
         const placeholder = {
           hero_article_id: artData[0]?.id || null,
-          featured_essay_ids: artData.slice(1, 3).map(a => a.id) || [],
+          featured_essay_ids: artData.slice(1, 3).map((a: any) => a.id) || [],
           issue_spotlight_id: issData?.[0]?.id || null,
           archive_highlight_id: artData[2]?.id || null,
           editors_note_id: noteData?.[0]?.id || null

@@ -40,6 +40,8 @@ export interface Article {
   excerpt: string;
   content: string; // Markdown
   coverUrl: string;
+  coverAltText?: string;
+  coverCaption?: string;
   authorId: string;
   issueId?: string;
   topicId?: string;

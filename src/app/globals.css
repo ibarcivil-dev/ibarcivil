@@ -16,6 +16,10 @@
   --font-serif: var(--font-fraunces), Georgia, serif;
   --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
   
+  /* Urdu Typography */
+  --font-urdu-head: "Mehr Nastaliq", var(--font-noto-urdu), var(--font-serif);
+  --font-urdu-body: var(--font-noto-urdu), var(--font-sans);
+
   /* Spacing System */
   --spacing-large: 120px;
   --spacing-medium: 64px;
@@ -136,3 +140,29 @@ input, textarea, select {
   white-space: nowrap;
   border: 0;
 }
+
+/* Urdu Language Configuration */
+:lang(ur),
+[lang="ur"],
+.ur,
+.urdu {
+  direction: rtl;
+  text-align: right;
+  font-family: var(--font-urdu-body);
+  line-height: 2.0;
+  font-size: 1.15rem;
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+
+:lang(ur) h1, :lang(ur) h2, :lang(ur) h3, :lang(ur) h4, :lang(ur) h5, :lang(ur) h6,
+[lang="ur"] h1, [lang="ur"] h2, [lang="ur"] h3, [lang="ur"] h4, [lang="ur"] h5, [lang="ur"] h6,
+.ur h1, .ur h2, .ur h3, .ur h4, .ur h5, .ur h6,
+.urdu h1, .urdu h2, .urdu h3, .urdu h4, .urdu h5, .urdu h6,
+.urdu-head {
+  font-family: var(--font-urdu-head);
+  line-height: 1.8;
+  letter-spacing: normal;
+  font-weight: normal;
+}
+
