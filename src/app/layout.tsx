@@ -25,12 +25,12 @@ const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
 
 export const metadata: Metadata = {
   title: {
-    default: "IBAR — Long-form Thinking & Editorial Depth",
+    default: "IBAR",
     template: "%s | IBAR"
   },
   description: "A digital publication focused on essays, ideas, culture, society, technology, politics, philosophy, and science for readers who value depth over speed.",
   openGraph: {
-    title: "IBAR — Long-form Thinking & Editorial Depth",
+    title: "IBAR",
     description: "A digital publication focused on essays, ideas, culture, society, technology, politics, philosophy, and science.",
     url: "https://ibar-webzine.vercel.app",
     siteName: "IBAR",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "IBAR — Long-form Thinking & Editorial Depth",
+    title: "IBAR",
     description: "A digital publication focused on essays, ideas, culture, society, technology, politics, philosophy, and science.",
   },
 };
