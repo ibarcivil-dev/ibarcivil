@@ -63,7 +63,7 @@ export default async function EssaysPage() {
                 <span>{featuredEssay.readingTime} min read</span>
               </div>
               <Link href={`/article/${featuredEssay.slug}`} className={styles.readBtn}>
-                Read Essay
+                Read
               </Link>
             </div>
           </div>

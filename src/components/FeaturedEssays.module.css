@@ -1,0 +1,291 @@
+.section {
+  padding: var(--spacing-medium) 0;
+  border-bottom: none;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--text-primary);
+  padding-bottom: 12px;
+}
+
+.sectionTitle {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.sectionSubtitle {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin-left: 12px;
+}
+
+.tag {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  font-weight: 600;
+  display: block;
+}
+
+.meta {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: auto;
+}
+
+/* ── Layout switches ── */
+.desktopLayout {
+  display: grid;
+}
+.mobileLayout {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktopLayout {
+    display: none;
+  }
+  .mobileLayout {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* ── Desktop grid ── */
+.desktopLayout {
+  grid-template-columns: 440px 1fr;
+  border-top: 1px solid var(--border);
+  border-bottom: none;
+}
+
+/* ── Pinned hero ── */
+.pinnedHero {
+  position: relative;
+  align-self: stretch;
+  overflow: hidden;
+  border-right: 1px solid var(--border);
+  min-height: 400px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.pinnedImage {
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pinnedHero:hover .pinnedImage {
+  transform: scale(1.03);
+}
+
+.pinnedOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 1;
+}
+.pinnedCaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.pinnedTitle {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.25;
+  font-weight: 400;
+  color: #fff;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+.pinnedHero:hover .pinnedTitle {
+  color: rgba(255,255,255,0.8);
+}
+.pinnedCaption .meta {
+  color: rgba(255,255,255,0.6);
+}
+.pinnedCaption .tag {
+  color: rgba(255,255,255,0.65);
+}
+
+/* ── Stack rows ── */
+.stackRows {
+  display: flex;
+  flex-direction: column;
+}
+
+.stackRow {
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+  padding: 20px 0 20px 24px;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+  text-decoration: none;
+  color: inherit;
+}
+.stackRow:last-child {
+  border-bottom: none;
+}
+
+/* Row thumb */
+.rowThumb {
+  width: 88px;
+  height: 66px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  background: var(--muted);
+}
+.thumbImage {
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.stackRow:hover .thumbImage {
+  transform: scale(1.04);
+}
+
+/* Row body */
+.rowBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rowTitle {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.28;
+  color: var(--text-primary);
+  font-weight: 400;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+.stackRow:hover .rowTitle {
+  color: var(--accent);
+}
+
+.rowExcerpt {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+  font-weight: 300;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* rowMuted variant */
+.rowMuted {
+  background: var(--muted);
+  padding-right: 18px;
+}
+.rowMuted:hover {
+  filter: brightness(0.97);
+}
+
+/* rowSpotlight variant */
+.rowSpotlight {
+  border-top: 3px solid var(--accent);
+  border-bottom: none;
+  padding-top: 13px;
+  padding-right: 18px;
+}
+
+.spotTag {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  font-weight: 700;
+  display: block;
+}
+.spotTitle {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  line-height: 1.25;
+  color: var(--text-primary);
+  font-weight: 400;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+.stackRow:hover .spotTitle {
+  color: var(--accent);
+}
+
+.pullQuote {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  font-style: italic;
+  font-weight: 300;
+  border-left: 2px solid var(--border);
+  padding-left: 8px;
+  margin: 2px 0 0;
+}
+
+/* ── Mobile hero ── */
+.mobileHero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+/* reuse .pinnedImage, .pinnedOverlay, .pinnedCaption, .pinnedTitle */
+
+/* ── Mobile rows ── */
+.mobileRows {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+  .stackRow {
+    padding: 12px 16px;
+  }
+  .rowThumb {
+    width: 64px;
+    height: 48px;
+  }
+  .rowMuted {
+    padding: 12px 16px;
+  }
+  .rowSpotlight {
+    padding: 12px 16px;
+    padding-top: 13px;
+  }
+}

@@ -153,7 +153,7 @@ export default function AdminHomepageCuration() {
 
           {/* Featured Essay 1 */}
           <div className={styles.formGroup}>
-            <label className={styles.label}>Featured Essay 1</label>
+            <label className={styles.label}>Featured Essay 1 (Hero)</label>
             <select
               className={styles.select}
               value={config.featuredEssayIds[0] || ''}
@@ -174,13 +174,97 @@ export default function AdminHomepageCuration() {
 
           {/* Featured Essay 2 */}
           <div className={styles.formGroup}>
-            <label className={styles.label}>Featured Essay 2</label>
+            <label className={styles.label}>Featured Essay 2 (Secondary 1)</label>
             <select
               className={styles.select}
               value={config.featuredEssayIds[1] || ''}
               onChange={e => {
                 const updatedIds = [...config.featuredEssayIds];
                 updatedIds[1] = e.target.value;
+                setConfig({ ...config, featuredEssayIds: updatedIds });
+              }}
+            >
+              <option value="">None</option>
+              {articles.map(art => (
+                <option key={art.id} value={art.id}>
+                  {art.title}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Featured Essay 3 */}
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Featured Essay 3 (Secondary 2)</label>
+            <select
+              className={styles.select}
+              value={config.featuredEssayIds[2] || ''}
+              onChange={e => {
+                const updatedIds = [...config.featuredEssayIds];
+                updatedIds[2] = e.target.value;
+                setConfig({ ...config, featuredEssayIds: updatedIds });
+              }}
+            >
+              <option value="">None</option>
+              {articles.map(art => (
+                <option key={art.id} value={art.id}>
+                  {art.title}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Featured Essay 4 */}
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Featured Essay 4 (Visual)</label>
+            <select
+              className={styles.select}
+              value={config.featuredEssayIds[3] || ''}
+              onChange={e => {
+                const updatedIds = [...config.featuredEssayIds];
+                updatedIds[3] = e.target.value;
+                setConfig({ ...config, featuredEssayIds: updatedIds });
+              }}
+            >
+              <option value="">None</option>
+              {articles.map(art => (
+                <option key={art.id} value={art.id}>
+                  {art.title}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Featured Essay 5 */}
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Featured Essay 5 (Highlight)</label>
+            <select
+              className={styles.select}
+              value={config.featuredEssayIds[4] || ''}
+              onChange={e => {
+                const updatedIds = [...config.featuredEssayIds];
+                updatedIds[4] = e.target.value;
+                setConfig({ ...config, featuredEssayIds: updatedIds });
+              }}
+            >
+              <option value="">None</option>
+              {articles.map(art => (
+                <option key={art.id} value={art.id}>
+                  {art.title}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Featured Essay 6 */}
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Featured Essay 6 (Spotlight)</label>
+            <select
+              className={styles.select}
+              value={config.featuredEssayIds[5] || ''}
+              onChange={e => {
+                const updatedIds = [...config.featuredEssayIds];
+                updatedIds[5] = e.target.value;
                 setConfig({ ...config, featuredEssayIds: updatedIds });
               }}
             >

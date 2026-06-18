@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
-import { Sun, Moon, ChevronDown, User } from 'lucide-react';
+import { Sun, Moon, ChevronDown } from 'lucide-react';
 import styles from './Header.module.css';
 import { SearchOverlay } from './SearchOverlay';
 import { getTopics } from '@/lib/mockDb';
@@ -11,8 +12,11 @@ import { getTopics } from '@/lib/mockDb';
 export function Header() {
   const [isCompressed, setIsCompressed] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isTopicsExpanded, setIsTopicsExpanded] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
 
   const topics = getTopics();
 
@@ -32,7 +36,6 @@ export function Header() {
   // Keyboard shortcut listener for search (⌘K or /)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't trigger if user is typing in form inputs
       const target = e.target as HTMLElement;
       if (
         target.tagName === 'INPUT' ||
@@ -60,21 +63,38 @@ export function Header() {
     setMounted(true);
   }, []);
 
+  // Prevent page scroll when mobile navigation is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
+  // Close mobile menu on path changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
+
   const toggleTheme = () => {
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
   };
 
   return (
     <>
-      <header className={`${styles.header} ${isCompressed ? styles.compressed : ''}`}>
+      <header className={`${styles.header} ${isCompressed ? styles.compressed : ''} ${isMobileMenuOpen ? styles.headerActive : ''}`}>
         <div className={styles.container}>
           {/* Logo */}
-          <Link href="/" className={styles.logo}>
+          <Link href="/" className={styles.logo} onClick={() => setIsMobileMenuOpen(false)}>
             IBAR
           </Link>
 
-          {/* Navigation */}
-          <nav>
+          {/* Navigation (Desktop) */}
+          <nav className={styles.desktopNav}>
             <ul className={styles.nav}>
               <li className={styles.navItem}>
                 <Link href="/essays" className={styles.navLink}>
@@ -113,7 +133,7 @@ export function Header() {
             </ul>
           </nav>
 
-          {/* Actions */}
+          {/* Actions (Desktop) */}
           <div className={styles.actions}>
             {/* Command search button */}
             <button
@@ -143,8 +163,90 @@ export function Header() {
               Subscribe
             </Link>
           </div>
+
+          {/* Mobile Menu Trigger (Hamburger) */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className={`${styles.hamburger} ${isMobileMenuOpen ? styles.hamburgerOpen : ''}`}
+            aria-label="Toggle navigation menu"
+            aria-expanded={isMobileMenuOpen}
+          >
+            <span className={styles.hamburgerLine} />
+            <span className={styles.hamburgerLine} />
+            <span className={styles.hamburgerLine} />
+          </button>
         </div>
       </header>
+
+      {/* Mobile Navigation Drawer */}
+      <div className={`${styles.mobileDrawer} ${isMobileMenuOpen ? styles.drawerOpen : ''}`}>
+        <nav className={styles.drawerNav}>
+          <ul className={styles.drawerLinks}>
+            <li>
+              <Link href="/essays" className={styles.drawerLink}>
+                Essays
+              </Link>
+            </li>
+            <li>
+              <button
+                className={styles.drawerDropdownTrigger}
+                onClick={() => setIsTopicsExpanded(!isTopicsExpanded)}
+                aria-expanded={isTopicsExpanded}
+              >
+                <span>Topics</span>
+                <ChevronDown size={18} style={{ transform: isTopicsExpanded ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s ease' }} />
+              </button>
+              <ul className={`${styles.drawerDropdown} ${isTopicsExpanded ? styles.drawerDropdownOpen : ''}`}>
+                {topics.map(topic => (
+                  <li key={topic.id}>
+                    <Link href={`/topic/${topic.slug}`} className={styles.drawerDropdownLink}>
+                      {topic.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </li>
+            <li>
+              <Link href="/perspectives" className={styles.drawerLink}>
+                Perspectives
+              </Link>
+            </li>
+            <li>
+              <Link href="/archive" className={styles.drawerLink}>
+                Archive
+              </Link>
+            </li>
+            <li>
+              <Link href="/about" className={styles.drawerLink}>
+                About
+              </Link>
+            </li>
+          </ul>
+        </nav>
+
+        <div className={styles.drawerFooter}>
+          <button
+            onClick={() => {
+              setIsMobileMenuOpen(false);
+              setIsSearchOpen(true);
+            }}
+            className={styles.drawerSearchBtn}
+          >
+            Search Publication
+          </button>
+          
+          <div className={styles.drawerActionsRow}>
+            <button onClick={toggleTheme} className={styles.drawerThemeBtn} aria-label="Toggle visual theme">
+              {resolvedTheme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+              <span>{resolvedTheme === 'dark' ? 'Light Theme' : 'Dark Theme'}</span>
+            </button>
+            
+            <Link href="/subscribe" className={styles.drawerSubscribeLink}>
+              Subscribe
+            </Link>
+          </div>
+        </div>
+      </div>
 
       {/* Spacer to prevent page content jumping behind fixed header */}
       <div className={styles.headerSpacer} />

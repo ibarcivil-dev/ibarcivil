@@ -95,7 +95,7 @@ export const MOCK_AUTHORS: Author[] = [
     id: 'author-1',
     name: 'Elena Rostova',
     slug: 'elena-rostova',
-    avatarUrl: '/images/authors/elena.jpg',
+    avatarUrl: '/images/authors/elena.png',
     bio: 'Elena Rostova is a philosopher and essayist focusing on the intersections of technology, phenomenology, and public space. Previously, she lectured on continental philosophy at the Sorbonne and curated archives for the Baltic Cultural Centre.',
     specialization: 'Philosophy & Society',
     currentInterests: [
@@ -112,7 +112,7 @@ export const MOCK_AUTHORS: Author[] = [
     id: 'author-2',
     name: 'Arthur Vance',
     slug: 'arthur-vance',
-    avatarUrl: '/images/authors/arthur.jpg',
+    avatarUrl: '/images/authors/arthur.png',
     bio: 'Arthur Vance is a science writer and historian of ideas. He spent a decade investigating the sociology of scientific laboratories before turning his attention to how modern institutions define "expertise" and "truth".',
     specialization: 'Science & Epistemology',
     currentInterests: [
@@ -129,7 +129,7 @@ export const MOCK_AUTHORS: Author[] = [
     id: 'author-3',
     name: 'Sarah Jenkins',
     slug: 'sarah-jenkins',
-    avatarUrl: '/images/authors/sarah.jpg',
+    avatarUrl: '/images/authors/sarah.png',
     bio: 'Sarah Jenkins is a cultural critic and digital historian. She examines the impact of speed on human perception, memory storage, and artistic movements, arguing that the internet is rebuilding our cognitive cartography.',
     specialization: 'Culture & Technology',
     currentInterests: [
@@ -146,7 +146,7 @@ export const MOCK_AUTHORS: Author[] = [
     id: 'author-4',
     name: 'Marc Dubois',
     slug: 'marc-dubois',
-    avatarUrl: '/images/authors/marc.jpg',
+    avatarUrl: '/images/authors/marc.png',
     bio: 'Marc Dubois writes about post-growth economics, suburban history, and political rhetoric. A former policy researcher, he advocates for structural deceleration and the architectural design of common lands.',
     specialization: 'Politics & Economics',
     currentInterests: [
@@ -423,6 +423,23 @@ Look at the history of typography. In the early days of print, space was expensi
 We need a similar discovery in our digital lives. We need interfaces that do not fight for our attention with alerts and pop-ups, but offer a quiet surface for reading. We need products that do only one thing, but do it exceptionally well.
 
 A publication that values its readers is one that demonstrates restraint. It does not fill its pages with related links, share buttons, and video ads. It gives you the article, and nothing else. It respects your time enough to let you finish.`
+  },
+  {
+    id: 'art-7',
+    slug: 'the-optimism-bias',
+    title: 'The Optimism Bias',
+    subtitle: 'Why we keep believing things will work out against all odds.',
+    excerpt: 'Our brains are wired to overestimate positive outcomes and underestimate negative ones. Understanding this bias is key to surviving a crisis.',
+    coverUrl: '/images/articles/noise.jpg',
+    authorId: 'author-3', // Sarah Jenkins
+    issueId: 'issue-11',
+    topicId: 'topic-society',
+    status: 'published',
+    featured: true,
+    homepagePriority: 6,
+    readingTime: 10,
+    publishedAt: '2026-04-10T08:00:00Z',
+    content: `We are optimists by nature. We buy lottery tickets, get married, and start businesses under the assumption that we will succeed where others have failed. This optimism bias is not just a psychological quirk; it is a fundamental survival mechanism. But when a crisis strikes, it can also be our downfall.`
   }
 ];
 
@@ -482,12 +499,20 @@ export const MOCK_RECOMMENDATIONS: Recommendation[] = [
     curatorName: 'Elena Rostova',
     commentary: 'Erling Kagge, an explorer who walked to the South Pole in complete isolation, writes a beautiful, sparse meditation on finding quietness in a hyper-connected world.',
     publishedAt: '2026-04-10T00:00:00Z'
+  },
+  {
+    id: 'rec-3',
+    title: 'The Gutenberg Galaxy',
+    url: '#',
+    curatorName: 'Arthur Vance',
+    commentary: 'Marshall McLuhan\'s analysis of how print technology shaped human consciousness is vital for understanding how digital screens are changing us once again.',
+    publishedAt: '2026-03-15T00:00:00Z'
   }
 ];
 
 export const MOCK_HOMEPAGE_CONFIG: HomepageConfig = {
   heroArticleId: 'art-1', // The Tyranny of Convenience
-  featuredEssayIds: ['art-2', 'art-6'], // The Last Useful Expert, The Subtraction Economy
+  featuredEssayIds: ['art-2', 'art-6', 'art-3', 'art-4', 'art-5', 'art-7'], // Populate 6 grid slots
   issueSpotlightId: 'issue-12', // Issue 12
   archiveHighlightId: 'art-3', // A City Built for Waiting
   editorsNoteId: 'note-1' // On the Necessity of Boring Books

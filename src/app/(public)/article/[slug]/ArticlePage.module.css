@@ -13,7 +13,7 @@
   left: 0;
   height: 4px;
   background-color: var(--accent);
-  z-index: 200;
+  z-index: 1001;
   transition: width 0.1s ease-out;
 }
 
@@ -94,6 +94,18 @@
 @media (max-width: 900px) {
   .coverContainer {
     height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .coverContainer {
+    width: calc(100% + 2 * var(--spacing-small));
+    margin-left: calc(-1 * var(--spacing-small));
+    margin-right: calc(-1 * var(--spacing-small));
+    left: auto;
+    right: auto;
+    height: clamp(240px, 45vh, 320px);
+    margin-bottom: clamp(24px, 5vw, 32px);
   }
 }
 

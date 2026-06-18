@@ -9,8 +9,15 @@
   --accent: #7A3E2B;
   --border: #E7DED0;
   --muted: #F0E8DC;
-  --navbar-height: 100px;
-  --navbar-height-compressed: 70px;
+  
+  /* Safe Area Support */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+
+  --navbar-height: clamp(72px, 8vw, 100px);
+  --navbar-height-compressed: clamp(60px, 6vw, 70px);
   
   /* Font bindings mapped to next/font/google variables */
   --font-serif: var(--font-fraunces), Georgia, serif;
@@ -20,12 +27,12 @@
   --font-urdu-head: "Mehr Nastaliq", var(--font-noto-urdu), var(--font-serif);
   --font-urdu-body: var(--font-noto-urdu), var(--font-sans);
 
-  /* Spacing System */
-  --spacing-large: 120px;
-  --spacing-medium: 64px;
-  --spacing-small: 24px;
+  /* Fluid Spacing System */
+  --spacing-large: clamp(48px, 8vw, 96px);
+  --spacing-medium: clamp(32px, 5vw, 64px);
+  --spacing-small: clamp(16px, 3vw, 24px);
   --content-width: 1200px;
-  --article-width: 70ch;
+  --article-width: 65ch; /* Optimized to 65ch max-width for premium reading */
 }
 
 /* Colors - Dark Theme (controlled by next-themes adding class="dark" to html) */

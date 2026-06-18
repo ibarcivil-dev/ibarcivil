@@ -24,6 +24,7 @@ export default function AdminLogin() {
     async function checkCurrentSession() {
       const { data } = await supabase.auth.getSession();
       if (data?.session) {
+        document.cookie = "ibar_admin_session=true; path=/; max-age=86400; SameSite=Lax";
         window.location.href = '/admin';
       }
     }

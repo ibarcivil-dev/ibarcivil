@@ -35,7 +35,7 @@ export function Markdown({ content }: MarkdownProps) {
                       title={title || ''}
                       fill
                       style={{ objectFit: 'cover' }}
-                      sizes="(max-width: 1200px) 100vw, 70ch"
+                      sizes="(max-width: 768px) 100vw, 65ch"
                     />
                   ) : (
                     // Fallback for absolute urls or placeholders

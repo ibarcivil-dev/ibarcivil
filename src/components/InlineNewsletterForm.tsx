@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import styles from './InlineNewsletterForm.module.css';
 
 export function InlineNewsletterForm() {
   const [email, setEmail] = useState('');
@@ -32,42 +33,16 @@ export function InlineNewsletterForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{
-      display: 'flex',
-      width: '100%',
-      maxWidth: '420px',
-      borderBottom: '1px solid var(--text-primary)',
-      paddingBottom: '8px',
-      marginTop: '16px'
-    }}>
+    <form onSubmit={handleSubmit} className={styles.form}>
       <input
         type="email"
         placeholder="Enter your email address"
         value={email}
         onChange={e => setEmail(e.target.value)}
         required
-        style={{
-          background: 'transparent',
-          border: 'none',
-          width: '100%',
-          color: 'var(--text-primary)',
-          fontSize: '0.95rem',
-          outline: 'none',
-          fontFamily: 'var(--font-sans)'
-        }}
+        className={styles.input}
       />
-      <button type="submit" style={{
-        fontFamily: 'var(--font-sans)',
-        fontSize: '0.85rem',
-        textTransform: 'uppercase',
-        letterSpacing: '0.08em',
-        fontWeight: '600',
-        color: 'var(--text-primary)',
-        whiteSpace: 'nowrap',
-        background: 'none',
-        border: 'none',
-        cursor: 'pointer'
-      }}>
+      <button type="submit" className={styles.submitBtn}>
         Subscribe
       </button>
     </form>
