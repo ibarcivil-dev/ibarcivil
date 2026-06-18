@@ -276,7 +276,6 @@ export function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
               <span className={styles.shortcut}>Esc</span> to close
             </span>
           </div>
-          <div>IBAR Webzine Search</div>
         </div>
       </div>
     </div>
