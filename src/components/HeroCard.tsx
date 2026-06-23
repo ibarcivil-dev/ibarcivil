@@ -7,18 +7,17 @@ import { Article } from '@/lib/mockDb';
 interface HeroCardProps {
   article: Article;
   authorName?: string;
-  isMobile?: boolean;
 }
 
-export function HeroCard({ article, authorName, isMobile = false }: HeroCardProps) {
+export function HeroCard({ article, authorName }: HeroCardProps) {
   return (
-    <Link href={`/article/${article.slug}`} className={isMobile ? styles.mobileHero : styles.pinnedHero}>
+    <Link href={`/article/${article.slug}`} className={styles.featuredHero}>
       {article.coverUrl && (
         <Image
           src={article.coverUrl}
           alt={article.title}
           fill
-          sizes={isMobile ? "100vw" : "520px"}
+          sizes="(max-width: 768px) 100vw, 520px"
           className={styles.pinnedImage}
           priority
         />

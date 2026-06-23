@@ -26,62 +26,15 @@ export function FeaturedEssays({ featuredEssays, authors }: FeaturedEssaysProps)
         <h2 className={styles.sectionTitle}>Featured</h2>
       </div>
 
-      {/* Desktop */}
-      <div className={styles.desktopLayout}>
+      <div className={styles.essaysGrid}>
         {essay1 && (
           <HeroCard
             article={essay1}
             authorName={getAuthor(essay1.authorId)?.name}
-            isMobile={false}
           />
         )}
 
         <div className={styles.stackRows}>
-          {essay2 && (
-            <ListCard
-              article={essay2}
-              authorName={getAuthor(essay2.authorId)?.name}
-              variant="excerpt"
-            />
-          )}
-
-          {essay3 && (
-            <ListCard
-              article={essay3}
-              authorName={getAuthor(essay3.authorId)?.name}
-              variant="thumb-only"
-            />
-          )}
-
-          {essay4 && (
-            <ListCard
-              article={essay4}
-              authorName={getAuthor(essay4.authorId)?.name}
-              variant="muted"
-            />
-          )}
-
-          {essay5 && (
-            <ListCard
-              article={essay5}
-              authorName={getAuthor(essay5.authorId)?.name}
-              variant="spotlight"
-            />
-          )}
-        </div>
-      </div>
-
-      {/* Mobile */}
-      <div className={styles.mobileLayout}>
-        {essay1 && (
-          <HeroCard
-            article={essay1}
-            authorName={getAuthor(essay1.authorId)?.name}
-            isMobile={true}
-          />
-        )}
-
-        <div className={styles.mobileRows}>
           {essay2 && (
             <ListCard
               article={essay2}
