@@ -16,7 +16,6 @@ export function ArchiveHighlight({ archiveHighlight, issues, authors }: ArchiveH
     <section className={styles.sectionLarge}>
       <div className={styles.sectionHeader}>
         <h2 className={styles.sectionTitle}>From the Archives</h2>
-        <span className={styles.sectionSubtitle}>Timeless Writing</span>
       </div>
 
       <div className={styles.archiveHighlight}>

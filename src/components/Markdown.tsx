@@ -15,6 +15,7 @@ export function Markdown({ content }: MarkdownProps) {
     <div 
       className={`${styles.markdown} ${isUrdu ? 'ur urdu' : ''}`}
       lang={isUrdu ? 'ur' : 'en'}
+      dir={isUrdu ? 'rtl' : 'ltr'}
     >
       <ReactMarkdown
         components={{

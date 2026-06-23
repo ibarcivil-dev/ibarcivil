@@ -121,7 +121,8 @@ const getInitialTables = () => {
     homepage_configs,
     editor_notes,
     site_settings,
-    newsletter_subscribers: [] as any[]
+    newsletter_subscribers: [] as any[],
+    submissions: [] as any[]
   };
 };
 

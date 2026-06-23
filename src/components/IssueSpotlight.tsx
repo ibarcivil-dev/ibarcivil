@@ -14,10 +14,9 @@ export function IssueSpotlight({ spotlightIssue, articles, authors }: IssueSpotl
   const getAuthor = (id: string) => authors.find(a => a.id === id);
 
   return (
-    <section className={styles.sectionLarge}>
+    <section className={`${styles.sectionLarge} ${styles.issueSpotlightSection}`}>
       <div className={styles.sectionHeader}>
         <h2 className={styles.sectionTitle}>Issue Spotlight</h2>
-        <span className={styles.sectionSubtitle}>Current Print Edition</span>
       </div>
 
       <div className={styles.issueGrid}>

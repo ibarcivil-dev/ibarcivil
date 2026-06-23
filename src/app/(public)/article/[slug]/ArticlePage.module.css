@@ -209,21 +209,75 @@
 
 .relatedGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
+  grid-template-columns: 1fr;
+  gap: 24px;
 }
 
 @media (max-width: 768px) {
   .relatedGrid {
-    grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 20px;
   }
 }
 
 .relatedCard {
   display: flex;
+  flex-direction: row;
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+  align-items: stretch;
+}
+
+.relatedCard:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.06);
+}
+
+:global(html.dark) .relatedCard {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+:global(html.dark) .relatedCard:hover {
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+}
+
+.relatedImageContainer {
+  position: relative;
+  width: 200px;
+  min-width: 200px;
+  background-color: var(--muted);
+  overflow: hidden;
+}
+
+.relatedImageContainer img {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.relatedCard:hover .relatedImageContainer img {
+  transform: scale(1.05);
+}
+
+.relatedCardContent {
+  padding: 24px;
+  display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
+  flex-grow: 1;
+}
+
+@media (max-width: 600px) {
+  .relatedCard {
+    flex-direction: column;
+  }
+  
+  .relatedImageContainer {
+    width: 100%;
+    min-width: 100%;
+    aspect-ratio: 16 / 9;
+  }
 }
 
 .relatedCardTitle {

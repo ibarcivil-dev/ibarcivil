@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './Footer.module.css';
 
 export function Footer() {
@@ -26,7 +27,13 @@ export function Footer() {
           {/* Brand Column */}
           <div className={styles.logoCol}>
             <Link href="/" className={styles.logo}>
-              IBAR
+              <Image
+                src="/logo.png"
+                alt="IBAR"
+                width={300}
+                height={90}
+                className={styles.logoImage}
+              />
             </Link>
             <p className={styles.desc}>
               An independent digital publication dedicated to long-form thinking, essays, culture, society, and depth over speed.

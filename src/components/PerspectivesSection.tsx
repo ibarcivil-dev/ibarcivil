@@ -17,7 +17,6 @@ export function PerspectivesSection({ perspectives, authors }: PerspectivesSecti
     <section className={styles.section}>
       <div className={styles.sectionHeader}>
         <h2 className={styles.sectionTitle}>Perspectives</h2>
-        <span className={styles.sectionSubtitle}>Arguments & Viewpoints</span>
       </div>
 
       <div className={styles.perspectivesGrid}>

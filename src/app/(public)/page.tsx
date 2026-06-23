@@ -40,16 +40,19 @@ export default async function Homepage() {
   // Filter perspectives
   const perspectives = articles.filter(a => a.isPerspective).slice(0, 2);
 
-  // Fallback hero if not found
-  const activeHero = heroArticle || articles[0];
-  const heroAuthor = activeHero ? getAuthor(activeHero.authorId) : null;
+  // Hero slides setup: main hero article plus 3 other essays
+  const primaryHero = heroArticle || articles[0];
+  const otherArticles = articles.filter(a => a.id !== primaryHero?.id);
+  const heroArticles = primaryHero ? [primaryHero, ...otherArticles.slice(0, 3)] : articles.slice(0, 4);
 
   return (
-    <div className="container">
+    <>
       {/* 1. HERO STORY [Invitation] */}
-      {activeHero && (
-        <HeroSection activeHero={activeHero} heroAuthor={heroAuthor} />
+      {heroArticles.length > 0 && (
+        <HeroSection articles={heroArticles} authors={authors} />
       )}
+
+      <div className="container">
 
       {/* 2. FEATURED ESSAYS [Discovery] */}
       <FeaturedEssays featuredEssays={featuredEssays} authors={authors} />
@@ -87,5 +90,6 @@ export default async function Homepage() {
       {/* 9. NEWSLETTER */}
       <HomepageNewsletter />
     </div>
+  </>
   );
 }

@@ -33,10 +33,15 @@
 }
 
 .logo {
-  font-family: var(--font-serif);
-  font-size: 2rem;
-  letter-spacing: -0.03em;
-  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+}
+
+.logoImage {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 
 .desc {
@@ -48,12 +53,12 @@
 }
 
 .colTitle {
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
+  font-family: var(--font-serif); /* IBM Plex Sans */
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   color: var(--text-primary);
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 24px;
 }
 
@@ -65,10 +70,11 @@
 }
 
 .link {
-  font-family: var(--font-sans);
-  font-size: 0.9rem;
+  font-family: var(--font-serif); /* IBM Plex Sans */
+  font-size: 0.88rem;
   color: var(--text-secondary);
   transition: color 0.2s ease;
+  letter-spacing: 0.01em;
 }
 
 .link:hover {
@@ -144,9 +150,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
+  font-family: var(--font-serif); /* IBM Plex Sans */
+  font-size: 0.75rem;
   color: var(--text-secondary);
+  letter-spacing: 0.04em;
 }
 
 @media (max-width: 600px) {

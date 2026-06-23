@@ -13,7 +13,6 @@ export function ReadingList({ recommendations }: ReadingListProps) {
     <section className={styles.section}>
       <div className={styles.sectionHeader}>
         <h2 className={styles.sectionTitle}>Reading List</h2>
-        <span className={styles.sectionSubtitle}>Curated Choices</span>
       </div>
 
       <div className={styles.readingGrid}>

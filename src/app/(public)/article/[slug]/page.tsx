@@ -7,6 +7,7 @@ import { Markdown } from '@/components/Markdown';
 import { ArticleClientEffects } from './ArticleClientEffects';
 import { InlineNewsletterForm } from '@/components/InlineNewsletterForm';
 import {
+  getArticles,
   getArticleBySlug,
   getAuthorBySlug,
   getArticlesByTopic,
@@ -74,18 +75,25 @@ export default async function ArticlePage({ params }: PageProps) {
     ?.map(h => h.replace(/^###\s+/, '').trim()) || [];
 
   // Get related reading (articles from same topic, excluding current)
-  const relatedArticles = article.topicId
+  let relatedArticles = article.topicId
     ? getArticlesByTopic(article.topicId)
         .filter(a => a.id !== article.id)
-        .slice(0, 2)
     : [];
+
+  // Fallback: If no articles in the same topic, get recent articles excluding the current one
+  if (relatedArticles.length === 0) {
+    relatedArticles = getArticles()
+      .filter(a => a.id !== article.id);
+  }
+
+  relatedArticles = relatedArticles.slice(0, 2);
 
   const isTitleUrdu = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/.test(article.title + ' ' + article.subtitle);
 
   return (
     <article className={styles.articleWrapper}>
       {/* 1. ARTICLE TITLE & META [Immersion] */}
-      <div className={`${styles.header} ${isTitleUrdu ? 'ur urdu' : ''}`} lang={isTitleUrdu ? 'ur' : 'en'}>
+      <div className={`${styles.header} ${isTitleUrdu ? 'ur urdu' : ''}`} lang={isTitleUrdu ? 'ur' : 'en'} dir={isTitleUrdu ? 'rtl' : 'ltr'}>
         {topic && (
           <Link href={`/topic/${topic.slug}`} className={styles.topic}>
             {topic.name}
@@ -186,20 +194,36 @@ export default async function ArticlePage({ params }: PageProps) {
         <section className={styles.relatedSection}>
           <h3 className={styles.relatedTitle}>Related Reading</h3>
           <div className={styles.relatedGrid}>
-            {relatedArticles.map(related => (
-              <div key={related.id} className={styles.relatedCard}>
-                <span className={styles.topic}>{topic?.name}</span>
-                <h4 className={styles.relatedCardTitle}>
-                  <Link href={`/article/${related.slug}`}>{related.title}</Link>
-                </h4>
-                <p className={styles.relatedCardExcerpt}>{related.excerpt}</p>
-                <div className={styles.meta} style={{ borderWidth: '0', padding: '0', justifyContent: 'flex-start' }}>
-                  <span>By {authors.find(a => a.id === related.authorId)?.name}</span>
-                  <span>•</span>
-                  <span>{related.readingTime} min read</span>
-                </div>
-              </div>
-            ))}
+            {relatedArticles.map(related => {
+              const relatedTopic = related.topicId ? getTopicBySlug(related.topicId) : null;
+              return (
+                <Link key={related.id} href={`/article/${related.slug}`} className={styles.relatedCard}>
+                  {related.coverUrl && (
+                    <div className={styles.relatedImageContainer}>
+                      <Image
+                        src={related.coverUrl}
+                        alt={related.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 30vw"
+                        style={{ objectFit: 'cover' }}
+                      />
+                    </div>
+                  )}
+                  <div className={styles.relatedCardContent}>
+                    {relatedTopic && (
+                      <span className={styles.topic}>{relatedTopic.name}</span>
+                    )}
+                    <h4 className={styles.relatedCardTitle}>{related.title}</h4>
+                    <p className={styles.relatedCardExcerpt}>{related.excerpt}</p>
+                    <div className={styles.meta} style={{ borderWidth: '0', padding: '0', justifyContent: 'flex-start' }}>
+                      <span>By {authors.find(a => a.id === related.authorId)?.name}</span>
+                      <span>•</span>
+                      <span>{related.readingTime} min read</span>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </section>
       )}

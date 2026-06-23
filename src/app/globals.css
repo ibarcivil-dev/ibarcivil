@@ -19,13 +19,16 @@
   --navbar-height: clamp(72px, 8vw, 100px);
   --navbar-height-compressed: clamp(60px, 6vw, 70px);
   
-  /* Font bindings mapped to next/font/google variables */
-  --font-serif: var(--font-fraunces), Georgia, serif;
-  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  /* Typography System
+   * --font-serif  = IBM Plex Sans  → Headings, labels, UI chrome (geometric editorial)
+   * --font-sans   = Source Serif 4 → Body copy, article text (warm literary serif)
+   * --font-urdu-* = Noto Nastaliq Urdu
+   */  --font-serif: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-sans:  "Source Serif 4", Georgia, "Times New Roman", serif;
   
   /* Urdu Typography */
-  --font-urdu-head: "Mehr Nastaliq", var(--font-noto-urdu), var(--font-serif);
-  --font-urdu-body: var(--font-noto-urdu), var(--font-sans);
+  --font-urdu-head: "Noto Nastaliq Urdu", serif;
+  --font-urdu-body: "Noto Nastaliq Urdu", serif;
 
   /* Fluid Spacing System */
   --spacing-large: clamp(48px, 8vw, 96px);
@@ -62,7 +65,7 @@ html {
 body {
   background-color: var(--background);
   color: var(--text-primary);
-  font-family: var(--font-sans);
+  font-family: var(--font-sans); /* Source Serif 4 */
   transition: background-color 0.3s ease, color 0.3s ease;
   min-height: 100%;
   display: flex;
@@ -74,14 +77,17 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
+  font-family: var(--font-serif); /* IBM Plex Sans */
   color: var(--text-primary);
-  font-weight: 400;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
 p {
-  line-height: 1.6;
+  font-family: var(--font-sans); /* Source Serif 4 */
+  line-height: 1.75;
+  font-size: 1rem;
 }
 
 a {
@@ -100,11 +106,17 @@ button {
   font: inherit;
   cursor: pointer;
   color: inherit;
+  font-family: var(--font-serif); /* IBM Plex Sans */
 }
 
+/* All form controls inherit IBM Plex Sans for UI legibility */
 input, textarea, select {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif); /* IBM Plex Sans */
   font-size: 1rem;
+}
+
+label {
+  font-family: var(--font-serif); /* IBM Plex Sans */
 }
 
 /* Scrollbar styling */

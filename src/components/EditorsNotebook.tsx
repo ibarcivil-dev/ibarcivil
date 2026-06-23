@@ -17,7 +17,6 @@ export function EditorsNotebook({ editorNotes, spotlightNote }: EditorsNotebookP
         <div className="container" style={{ maxWidth: '900px' }}>
           <div className={styles.sectionHeader} style={{ borderColor: 'var(--text-primary)' }}>
             <h2 className={styles.sectionTitle}>Editor&rsquo;s Notebook</h2>
-            <span className={styles.sectionSubtitle}>Observations & Fragments</span>
           </div>
           <div className={styles.notebookGrid}>
             {editorNotes.slice(0, 2).map(note => (

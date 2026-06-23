@@ -86,7 +86,6 @@ export function ContributorsSection({ authors }: ContributorsSectionProps) {
     <section className={styles.sectionLarge} style={{ overflow: 'hidden' }}>
       <div className={styles.sectionHeader}>
         <h2 className={styles.sectionTitle}>Contributors</h2>
-        <span className={styles.sectionSubtitle}>Writers & Scholars</span>
       </div>
 
       <div ref={containerRef} className={styles.carouselContainer}>

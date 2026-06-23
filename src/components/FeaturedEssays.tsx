@@ -1,8 +1,8 @@
 import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
 import styles from './FeaturedEssays.module.css';
 import { Article, Author } from '@/lib/mockDb';
+import { HeroCard } from './HeroCard';
+import { ListCard } from './ListCard';
 
 interface FeaturedEssaysProps {
   featuredEssays: Article[];
@@ -23,114 +23,50 @@ export function FeaturedEssays({ featuredEssays, authors }: FeaturedEssaysProps)
   return (
     <section className={styles.section}>
       <div className={styles.sectionHeader}>
-        <h2 className={styles.sectionTitle}>Featured Essays</h2>
-        <span className={styles.sectionSubtitle}>Long-Form Analysis</span>
+        <h2 className={styles.sectionTitle}>Featured</h2>
       </div>
 
       {/* Desktop */}
       <div className={styles.desktopLayout}>
         {essay1 && (
-          <Link href={`/article/${essay1.slug}`} className={styles.pinnedHero}>
-            {essay1.coverUrl && (
-              <Image
-                src={essay1.coverUrl}
-                alt={essay1.title}
-                fill
-                sizes="440px"
-                className={styles.pinnedImage}
-                priority
-              />
-            )}
-            <div className={styles.pinnedOverlay} />
-            <div className={styles.pinnedCaption}>
-              <h3 className={styles.pinnedTitle}>{essay1.title}</h3>
-              <div className={styles.meta}>
-                <span>By {getAuthor(essay1.authorId)?.name}</span>
-                <span>•</span>
-                <span>{essay1.readingTime} min read</span>
-              </div>
-            </div>
-          </Link>
+          <HeroCard
+            article={essay1}
+            authorName={getAuthor(essay1.authorId)?.name}
+            isMobile={false}
+          />
         )}
 
         <div className={styles.stackRows}>
           {essay2 && (
-            <Link href={`/article/${essay2.slug}`} className={`${styles.stackRow} ${styles.rowWithExcerpt}`}>
-              <div className={styles.rowThumb}>
-                {essay2.coverUrl && (
-                  <Image
-                    src={essay2.coverUrl}
-                    alt={essay2.title}
-                    fill
-                    sizes="88px"
-                    className={styles.thumbImage}
-                  />
-                )}
-              </div>
-              <div className={styles.rowBody}>
-                <h4 className={styles.rowTitle}>{essay2.title}</h4>
-                <p className={styles.rowExcerpt}>{essay2.excerpt}</p>
-                <div className={styles.meta}>
-                  <span>By {getAuthor(essay2.authorId)?.name}</span>
-                  <span>•</span>
-                  <span>{essay2.readingTime} min read</span>
-                </div>
-              </div>
-            </Link>
+            <ListCard
+              article={essay2}
+              authorName={getAuthor(essay2.authorId)?.name}
+              variant="excerpt"
+            />
           )}
 
           {essay3 && (
-            <Link href={`/article/${essay3.slug}`} className={`${styles.stackRow} ${styles.rowThumbOnly}`}>
-              <div className={styles.rowThumb}>
-                {essay3.coverUrl && (
-                  <Image
-                    src={essay3.coverUrl}
-                    alt={essay3.title}
-                    fill
-                    sizes="88px"
-                    className={styles.thumbImage}
-                  />
-                )}
-              </div>
-              <div className={styles.rowBody}>
-                <h4 className={styles.rowTitle}>{essay3.title}</h4>
-                <div className={styles.meta}>
-                  <span>By {getAuthor(essay3.authorId)?.name}</span>
-                  <span>•</span>
-                  <span>{essay3.readingTime} min read</span>
-                </div>
-              </div>
-            </Link>
+            <ListCard
+              article={essay3}
+              authorName={getAuthor(essay3.authorId)?.name}
+              variant="thumb-only"
+            />
           )}
 
           {essay4 && (
-            <Link href={`/article/${essay4.slug}`} className={`${styles.stackRow} ${styles.rowMuted}`}>
-              <div className={styles.rowBody}>
-                <h4 className={styles.rowTitle}>{essay4.title}</h4>
-                <p className={styles.rowExcerpt}>{essay4.excerpt}</p>
-                <div className={styles.meta}>
-                  <span>By {getAuthor(essay4.authorId)?.name}</span>
-                  <span>•</span>
-                  <span>{essay4.readingTime} min read</span>
-                </div>
-              </div>
-            </Link>
+            <ListCard
+              article={essay4}
+              authorName={getAuthor(essay4.authorId)?.name}
+              variant="muted"
+            />
           )}
 
           {essay5 && (
-            <Link href={`/article/${essay5.slug}`} className={`${styles.stackRow} ${styles.rowSpotlight}`}>
-              <div className={styles.rowBody}>
-                <h4 className={styles.rowTitle}>{essay5.title}</h4>
-                <blockquote className={styles.pullQuote}>
-                  {essay5.excerpt?.slice(0, 120)}…
-                </blockquote>
-                <div className={styles.meta}>
-                  <span>By {getAuthor(essay5.authorId)?.name}</span>
-                  <span>•</span>
-                  <span>{essay5.readingTime} min read</span>
-                </div>
-              </div>
-            </Link>
+            <ListCard
+              article={essay5}
+              authorName={getAuthor(essay5.authorId)?.name}
+              variant="spotlight"
+            />
           )}
         </div>
       </div>
@@ -138,107 +74,44 @@ export function FeaturedEssays({ featuredEssays, authors }: FeaturedEssaysProps)
       {/* Mobile */}
       <div className={styles.mobileLayout}>
         {essay1 && (
-          <Link href={`/article/${essay1.slug}`} className={styles.mobileHero}>
-            {essay1.coverUrl && (
-              <Image
-                src={essay1.coverUrl}
-                alt={essay1.title}
-                fill
-                sizes="100vw"
-                className={styles.pinnedImage}
-                priority
-              />
-            )}
-            <div className={styles.pinnedOverlay} />
-            <div className={styles.pinnedCaption}>
-              <h3 className={styles.pinnedTitle}>{essay1.title}</h3>
-              <div className={styles.meta}>
-                <span>By {getAuthor(essay1.authorId)?.name}</span>
-                <span>•</span>
-                <span>{essay1.readingTime} min read</span>
-              </div>
-            </div>
-          </Link>
+          <HeroCard
+            article={essay1}
+            authorName={getAuthor(essay1.authorId)?.name}
+            isMobile={true}
+          />
         )}
 
         <div className={styles.mobileRows}>
           {essay2 && (
-            <Link href={`/article/${essay2.slug}`} className={`${styles.stackRow} ${styles.rowWithExcerpt}`}>
-              <div className={styles.rowThumb}>
-                {essay2.coverUrl && (
-                  <Image
-                    src={essay2.coverUrl}
-                    alt={essay2.title}
-                    fill
-                    sizes="88px"
-                    className={styles.thumbImage}
-                  />
-                )}
-              </div>
-              <div className={styles.rowBody}>
-                <h4 className={styles.rowTitle}>{essay2.title}</h4>
-                <p className={styles.rowExcerpt}>{essay2.excerpt}</p>
-                <div className={styles.meta}>
-                  <span>By {getAuthor(essay2.authorId)?.name}</span>
-                  <span>•</span>
-                  <span>{essay2.readingTime} min read</span>
-                </div>
-              </div>
-            </Link>
+            <ListCard
+              article={essay2}
+              authorName={getAuthor(essay2.authorId)?.name}
+              variant="excerpt"
+            />
           )}
 
           {essay3 && (
-            <Link href={`/article/${essay3.slug}`} className={`${styles.stackRow} ${styles.rowThumbOnly}`}>
-              <div className={styles.rowThumb}>
-                {essay3.coverUrl && (
-                  <Image
-                    src={essay3.coverUrl}
-                    alt={essay3.title}
-                    fill
-                    sizes="88px"
-                    className={styles.thumbImage}
-                  />
-                )}
-              </div>
-              <div className={styles.rowBody}>
-                <h4 className={styles.rowTitle}>{essay3.title}</h4>
-                <div className={styles.meta}>
-                  <span>By {getAuthor(essay3.authorId)?.name}</span>
-                  <span>•</span>
-                  <span>{essay3.readingTime} min read</span>
-                </div>
-              </div>
-            </Link>
+            <ListCard
+              article={essay3}
+              authorName={getAuthor(essay3.authorId)?.name}
+              variant="thumb-only"
+            />
           )}
 
           {essay4 && (
-            <Link href={`/article/${essay4.slug}`} className={`${styles.stackRow} ${styles.rowMuted}`}>
-              <div className={styles.rowBody}>
-                <h4 className={styles.rowTitle}>{essay4.title}</h4>
-                <p className={styles.rowExcerpt}>{essay4.excerpt}</p>
-                <div className={styles.meta}>
-                  <span>By {getAuthor(essay4.authorId)?.name}</span>
-                  <span>•</span>
-                  <span>{essay4.readingTime} min read</span>
-                </div>
-              </div>
-            </Link>
+            <ListCard
+              article={essay4}
+              authorName={getAuthor(essay4.authorId)?.name}
+              variant="muted"
+            />
           )}
 
           {essay5 && (
-            <Link href={`/article/${essay5.slug}`} className={`${styles.stackRow} ${styles.rowSpotlight}`}>
-              <div className={styles.rowBody}>
-                <h4 className={styles.rowTitle}>{essay5.title}</h4>
-                <blockquote className={styles.pullQuote}>
-                  {essay5.excerpt?.slice(0, 120)}…
-                </blockquote>
-                <div className={styles.meta}>
-                  <span>By {getAuthor(essay5.authorId)?.name}</span>
-                  <span>•</span>
-                  <span>{essay5.readingTime} min read</span>
-                </div>
-              </div>
-            </Link>
+            <ListCard
+              article={essay5}
+              authorName={getAuthor(essay5.authorId)?.name}
+              variant="spotlight"
+            />
           )}
         </div>
       </div>

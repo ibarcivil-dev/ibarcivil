@@ -957,7 +957,7 @@ export default function CreateArticle() {
           ) : (
             /* 9. Preview Mode (Absolute Parity - wraps in public CSS layout styles) */
             <div className={publicStyles.articleWrapper} style={{ width: '100%', padding: '0 16px' }}>
-              <div className={`${publicStyles.header} ${isRtl ? 'ur urdu' : ''}`} lang={isRtl ? 'ur' : 'en'} style={{ textAlign: 'center', marginBottom: '48px' }}>
+              <div className={`${publicStyles.header} ${isRtl ? 'ur urdu' : ''}`} lang={isRtl ? 'ur' : 'en'} dir={isRtl ? 'rtl' : 'ltr'} style={{ textAlign: 'center', marginBottom: '48px' }}>
                 {topic && (
                   <span className={publicStyles.topic} style={{ display: 'block', marginBottom: '16px' }}>
                     {topic.name}

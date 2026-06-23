@@ -15,6 +15,7 @@ import {
   LogOut,
   Mail,
   Archive,
+  Inbox,
 } from 'lucide-react';
 import { supabase } from '@/lib/supabaseClient';
 import styles from './admin.module.css';
@@ -107,6 +108,7 @@ export default function AdminClientLayout({
     { label: 'Dashboard', href: '/admin', icon: <LayoutDashboard size={16} /> },
     { label: 'Articles', href: '/admin/articles', icon: <FileText size={16} /> },
     { label: 'Perspectives', href: '/admin/perspectives', icon: <BookOpen size={16} /> },
+    { label: 'Submissions', href: '/admin/submissions', icon: <Inbox size={16} /> },
     { label: 'Issues', href: '/admin/issues', icon: <Compass size={16} /> },
     { label: 'Authors', href: '/admin/authors', icon: <Users size={16} /> },
     { label: 'Homepage Curation', href: '/admin/homepage', icon: <Sliders size={16} /> },
